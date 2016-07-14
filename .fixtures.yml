@@ -1,0 +1,83 @@
+---
+fixtures:
+  repositories:
+    apache:
+      repo: "https://github.com/simp/pupmod-simp-apache"
+      branch: "master"
+    auditd:
+      repo: "https://github.com/simp/pupmod-simp-auditd"
+      branch: "master"
+    augeasproviders_core:
+      repo: "https://github.com/simp/augeasproviders_core"
+      branch: "simp-master"
+    augeasproviders_grub:
+      repo: "https://github.com/simp/augeasproviders_grub"
+      branch: "simp-master"
+    augeasproviders_ssh:
+      repo: "https://github.com/simp/augeasproviders_ssh"
+      branch: "simp-master"
+    augeasproviders_sysctl:
+      repo: "https://github.com/simp/augeasproviders_sysctl"
+      branch: "simp-master"
+    augeasproviders_puppet:
+      repo: "https://github.com/simp/augeasproviders_puppet"
+      branch: "simp-master"
+    compliance_mapper:
+      repo: "https://github.com/simp/pupmod-simp-compliance_markup"
+      branch: "master"
+    datacat:
+      repo: "https://github.com/simp/puppet-datacat"
+      branch: "simp-master"
+    elasticsearch:
+      repo: "https://github.com/simp/puppet-elasticsearch"
+      branch: "simp-master"
+    haveged:
+      repo: "https://github.com/simp/puppet-haveged"
+      branch: "simp-master"
+    simpcat:
+      repo: "https://github.com/simp/pupmod-simp-concat"
+      branch: "master"
+    logrotate:
+      repo: "https://github.com/simp/pupmod-simp-logrotate"
+      branch: "master"
+    file_concat:
+      repo: "https://github.com/simp/puppet-lib-file_concat"
+      branch: "simp-master"
+    iptables:
+      repo: "https://github.com/simp/pupmod-simp-iptables"
+      branch: "master"
+    java:
+      repo: "https://github.com/simp/puppetlabs-java"
+      branch: "simp-master"
+    oddjob:
+      repo: "https://github.com/simp/pupmod-simp-oddjob"
+      branch: "master"
+    pam:
+      repo: "https://github.com/simp/pupmod-simp-pam"
+      branch: "master"
+    pki:
+      repo: "https://github.com/simp/pupmod-simp-pki"
+      branch: "master"
+    rsync:
+      repo: "https://github.com/simp/pupmod-simp-rsync"
+      branch: "master"
+    rsyslog:
+      repo: "https://github.com/simp/pupmod-simp-rsyslog"
+      branch: "master"
+    simplib:
+      repo: "https://github.com/simp/pupmod-simp-simplib"
+      branch: "master"
+    stdlib:
+      repo: "https://github.com/simp/puppetlabs-stdlib"
+      branch: "simp-master"
+    stunnel:
+      repo: "https://github.com/simp/pupmod-simp-stunnel"
+      branch: "master"
+    sysctl:
+      repo: "https://github.com/simp/pupmod-simp-sysctl"
+      branch: "master"
+    tcpwrappers:
+      repo: "https://github.com/simp/pupmod-simp-tcpwrappers"
+      branch: "master"
+  symlinks:
+    simp_elasticsearch: "#{source_dir}"
