@@ -194,7 +194,7 @@ Some environment variables may be useful:
    ``bundle exec rake spec_prep``. This can be used to run acceptance
    tests to run on isolated networks.
 
-.. _SIMP IPSec Module: https://github.com/simp/pupmod-simp-ipsec
+.. _SIMP IPSec Module: https://github.com/simp/pupmod-simp-libreswan
 .. |License| image:: http://img.shields.io/:license-apache-blue.svg
    :target: http://www.apache.org/licenses/LICENSE-2.0.html
 .. |Build Status| image:: https://travis-ci.org/simp/pupmod-simp-simp_elasticsearch.svg
