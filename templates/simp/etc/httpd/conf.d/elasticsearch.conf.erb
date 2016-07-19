@@ -29,7 +29,7 @@ Listen <%= @listen %>
     # Restrict who can write to ES.
     include '<%= @es_httpd_includes %>/limit/*.conf'
 
-    <LimitExcept GET POST PUT DELETE>
+    <LimitExcept GET POST PUT>
       Order allow,deny
     </LimitExcept>
   </Proxy>
