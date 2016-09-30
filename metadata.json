@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_elasticsearch",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "author": "SIMP",
   "summary": "SIMP module for integrating elastic/puppet-elasticsearch",
   "license": "Apache-2.0",
@@ -14,7 +14,7 @@
   "dependencies": [
     {
       "name": "elasticsearch/elasticsearch",
-      "version_requirement": "~> 0.11.0"
+      "version_requirement": ">= 0.11.0 < 0.12.0"
     },
     {
       "name": "puppetlabs/stdlib",

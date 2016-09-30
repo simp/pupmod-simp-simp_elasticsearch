@@ -1,3 +1,6 @@
+* Thu Sep 29 2016  Chris Tessmer <chris.tessmer@onypoint.com> - 3.0.2-1
+- Fixed malformed dependency in `metadata.json`.
+
 * Mon Jun 27 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 3.0.0-0
 - Removed the hook to the es2unix packages since they have been replaced by the
   '_cat' endpoint.
