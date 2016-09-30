@@ -5,7 +5,7 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 #
-class simp_elasticsearch::apache::defaults {
+class simp_elasticsearch::simp_apache::defaults {
 
   $_base_dn = hiera('ldap::base_dn','')
 
