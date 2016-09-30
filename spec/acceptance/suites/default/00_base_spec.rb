@@ -44,7 +44,7 @@ simp_elasticsearch::unicast_hosts :
 
 use_simp_pki : false
 
-apache::rsync_web_root : false
+simp_apache::rsync_web_root : false
 rsync::server : "%{::fqdn}"
 
 client_nets:

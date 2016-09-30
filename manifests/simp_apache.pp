@@ -25,7 +25,7 @@
 #     # If no value is assigned to the associated key then ['GET','POST','PUT']
 #     # is assumed.
 #
-#     # Values will be merged with those in simp_elasticsearch::apache::defaults
+#     # Values will be merged with those in simp_elasticsearch::simp_apache::defaults
 #     # if defined.
 #
 #     {
@@ -99,7 +99,7 @@
 #
 # @copyright 2016 Onyx Point, Inc.
 #
-class simp_elasticsearch::apache (
+class simp_elasticsearch::simp_apache (
   $manage_httpd                 = true,
   $listen                       = '9200',
   $proxyport                    = '9199',
@@ -120,18 +120,18 @@ class simp_elasticsearch::apache (
   validate_port($listen)
   validate_port($proxyport)
 
-  include '::simp_elasticsearch::apache::defaults'
-  include '::apache::validate'
+  include '::simp_elasticsearch::simp_apache::defaults'
+  include '::simp_apache::validate'
 
   # Make sure we were actually given a hash.
   validate_hash($method_acl)
 
   $_method_acl = deep_merge(
-    $::simp_elasticsearch::apache::defaults::method_acl,
+    $::simp_elasticsearch::simp_apache::defaults::method_acl,
     $method_acl
   )
 
-  validate_deep_hash( $::apache::validate::method_acl, $_method_acl)
+  validate_deep_hash( $::simp_apache::validate::method_acl, $_method_acl)
 
   # These only work because we guarantee that we have content here.
   validate_absolute_path($_method_acl['method']['file']['user_file'])
@@ -141,14 +141,14 @@ class simp_elasticsearch::apache (
   $es_httpd_includes = '/etc/httpd/conf.d/elasticsearch'
 
   if $manage_httpd or $manage_httpd == 'conf' {
-    include 'apache::ssl'
-    include 'apache::conf'
+    include 'simp_apache::ssl'
+    include 'simp_apache::conf'
 
-    $_ssl_certificate_file = $::apache::ssl::sslcertificatefile
-    $_ssl_certificate_key_file = $::apache::ssl::sslcertificatekeyfile
-    $_ssl_ca_certificate_path = $::apache::ssl::sslcacertificatepath
+    $_ssl_certificate_file = $::simp_apache::ssl::sslcertificatefile
+    $_ssl_certificate_key_file = $::simp_apache::ssl::sslcertificatekeyfile
+    $_ssl_ca_certificate_path = $::simp_apache::ssl::sslcacertificatepath
 
-    apache::add_site { 'elasticsearch':
+    simp_apache::add_site { 'elasticsearch':
       content => template("${module_name}/simp/etc/httpd/conf.d/elasticsearch.conf.erb")
     }
 

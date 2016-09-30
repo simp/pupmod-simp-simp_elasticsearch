@@ -16,7 +16,7 @@ describe 'simp_elasticsearch' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_class('simp_elasticsearch') }
         it { is_expected.to create_class('iptables') }
-        it { is_expected.to create_class('simp_elasticsearch::apache') }
+        it { is_expected.to create_class('simp_elasticsearch::simp_apache') }
         it { is_expected.to create_class('pam::limits') }
       end
     end
