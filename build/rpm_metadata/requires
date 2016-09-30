@@ -1,10 +1,11 @@
 Requires: pupmod-elasticsearch-elasticsearch >= 0.11.0
 Requires: pupmod-puppetlabs-java >= 1.2.0
 Requires: pupmod-puppetlabs-stdlib
-Requires: pupmod-iptables >= 4.1.0
-Requires: pupmod-simplib >= 1.2.3
-Requires: pupmod-stunnel >= 4.2.3
-Requires: pupmod-sysctl >= 4.2.0
-Requires: pupmod-tcpwrappers >= 4.1.0
+Requires: pupmod-simp-simp_apache >= 5.0.0
+Requires: pupmod-simp-iptables >= 4.1.0
+Requires: pupmod-simp-simplib >= 1.2.3
+Requires: pupmod-simp-stunnel >= 4.2.3
+Requires: pupmod-simp-sysctl >= 4.2.0
+Requires: pupmod-simp-tcpwrappers >= 4.1.0
 Provides: pupmod-elasticsearch
 Obsoletes: pupmod-elasticsearch >= 2.0.0-1

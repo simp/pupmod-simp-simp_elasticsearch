@@ -1,3 +1,7 @@
+* Fri Sep 30 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.0.0-0
+- Updated to use the version of 'simp_apache' that does not conflict with
+  'puppetlabs/apache'.
+
 * Thu Sep 29 2016  Chris Tessmer <chris.tessmer@onypoint.com> - 3.0.2-1
 - Fixed malformed dependency in `metadata.json`.
 
