@@ -1,3 +1,7 @@
+* Tue Oct 18 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.0.0-0                                                                                                           
+- Updated to use the version of 'simp_apache' that does not conflict with                                                                                                     
+  'puppetlabs/apache'.
+
 * Thu Oct 06 2016  Ralph Wright <ralph.wright@onyxpoint.com> - 3.0.3-0
 - Changed default data directory to /var
 - Updated Readme with SSL verify note
