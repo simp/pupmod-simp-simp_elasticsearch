@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_elasticsearch",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "author": "SIMP",
   "summary": "SIMP module for integrating elastic/puppet-elasticsearch",
   "license": "Apache-2.0",
@@ -19,6 +19,10 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.1.0"
+    },
+    {
+      "name": "simp/simp_apache",
+      "version_requirement": ">= 5.0.0"
     },
     {
       "name": "simp/simplib",
