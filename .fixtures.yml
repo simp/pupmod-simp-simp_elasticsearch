@@ -1,9 +1,6 @@
 ---
 fixtures:
   repositories:
-    apache:
-      repo: "https://github.com/simp/pupmod-simp-apache"
-      branch: "master"
     auditd:
       repo: "https://github.com/simp/pupmod-simp-auditd"
       branch: "master"
@@ -36,6 +33,9 @@ fixtures:
       branch: "simp-master"
     simpcat:
       repo: "https://github.com/simp/pupmod-simp-concat"
+      branch: "master"
+    simp_apache:
+      repo: "https://github.com/simp/pupmod-simp-apache"
       branch: "master"
     logrotate:
       repo: "https://github.com/simp/pupmod-simp-logrotate"

@@ -243,7 +243,7 @@ fi
   }
 
   if $manage_httpd == 'conf' {
-    class { 'simp_elasticsearch::apache':
+    class { 'simp_elasticsearch::simp_apache':
       manage_httpd => false,
       proxyport    => $_config['http']['port'],
       method_acl   => $http_method_acl
@@ -251,7 +251,7 @@ fi
   }
   elsif $manage_httpd {
     # Manage both apache and the config.
-    class { 'simp_elasticsearch::apache':
+    class { 'simp_elasticsearch::simp_apache':
       proxyport  => $_config['http']['port'],
       method_acl => $http_method_acl
     }
