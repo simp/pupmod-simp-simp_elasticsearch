@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_e107406e",
+        "filename": "metadata.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-10-05T19:20:30Z",
+      "side": 0,
+      "message": "Needs puppetlabs/java and puppetlabs/java_ks",
+      "revId": "7b0f2e081eb6b34b3da19a3f0e12fe9a9dc262cd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}

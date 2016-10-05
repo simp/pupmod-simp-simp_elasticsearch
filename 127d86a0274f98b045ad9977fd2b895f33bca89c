@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_0117c4a3",
+        "filename": "build/rpm_metadata/requires",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-10-05T19:20:30Z",
+      "side": 1,
+      "message": "This also needs pupmod-puppetlabs-java_ks",
+      "revId": "127d86a0274f98b045ad9977fd2b895f33bca89c",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
