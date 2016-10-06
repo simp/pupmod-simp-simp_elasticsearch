@@ -142,6 +142,10 @@ To expose your cluster to external hosts, you will use the following Hiera confi
 
 .. code:: yaml
 
+  # This is required for use with Grafana. If you are not using Grafana, you
+  # should require client validation (default) if at all possible.
+  simp_elasticsearch::apache::ssl_verify_client: 'none'
+
   simp_elasticsearch::http_method_acl :
     'limits' :
       'hosts' :
