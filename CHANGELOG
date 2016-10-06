@@ -1,4 +1,7 @@
-* Thu Sep 29 2016  Chris Tessmer <chris.tessmer@onypoint.com> - 3.0.2-1
+* Thu Oct 06 2016  Ralph Wright <ralph.wright@onyxpoint.com> - 3.0.3-0
+- Changed default data directory to /var
+
+* Thu Sep 29 2016  Chris Tessmer <chris.tessmer@onyxpoint.com> - 3.0.2-1
 - Fixed malformed dependency in `metadata.json`.
 
 * Mon Jun 27 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 3.0.0-0
