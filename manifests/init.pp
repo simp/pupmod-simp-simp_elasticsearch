@@ -190,10 +190,11 @@ class simp_elasticsearch (
     config            => $_config,
     autoupgrade       => true,
     status            => 'enabled',
-    init_defaults  => deep_merge(
+    init_defaults     => deep_merge(
       $init_defaults,
       $::simp_elasticsearch::defaults::init_defaults
     ),
+    datadir           => "${data_dir}/data",
     restart_on_change => $restart_on_change
   }
 
