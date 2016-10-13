@@ -142,6 +142,7 @@ To expose your cluster to external hosts, you will use the following Hiera confi
 
 .. code:: yaml
 
+  simp_elasticsearch::apache::ssl_verify_client: 'none'
   simp_elasticsearch::http_method_acl :
     'limits' :
       'hosts' :
