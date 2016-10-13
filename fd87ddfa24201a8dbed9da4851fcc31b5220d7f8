@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baa041b7_e27962c6",
+        "filename": "README.rst",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1004834
+      },
+      "writtenOn": "2016-10-13T21:03:11Z",
+      "side": 1,
+      "message": "Note that this is for Grafana and that, if you have regular clients connecting, ideally you would validate their certificates when connecting.",
+      "revId": "fd87ddfa24201a8dbed9da4851fcc31b5220d7f8",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
