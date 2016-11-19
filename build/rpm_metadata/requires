@@ -1,5 +1,7 @@
+Obsoletes: pupmod-simp-elasticsearch >= 2.0.0-1
+Provides: pupmod-simp-elasticsearch >= 2.0.0-1
 Obsoletes: pupmod-elasticsearch >= 2.0.0-1
-Provides: pupmod-elasticsearch
+Provides: pupmod-elasticsearch >= 2.0.0-1
 Requires: pupmod-elasticsearch-elasticsearch < 1.0.0-0
 Requires: pupmod-elasticsearch-elasticsearch >= 0.11.0-0
 Requires: pupmod-iptables >= 4.1.0
