@@ -1,7 +1,7 @@
 {
   "name": "simp-simp_elasticsearch",
   "version": "4.0.0",
-  "author": "SIMP",
+  "author": "SIMP Team",
   "summary": "SIMP module for integrating elastic/puppet-elasticsearch",
   "license": "Apache-2.0",
   "source": "https://github.com/simp/pupmod-simp-simp_elasticsearch",
