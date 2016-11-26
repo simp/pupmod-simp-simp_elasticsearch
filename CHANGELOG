@@ -1,3 +1,6 @@
+* Sun Nov 26 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.0.0-0
+- Fixed RPM dependencies
+
 * Mon Nov 21 2016 Chris Tessmer <chris.tessmer@onyxpoint.com> - 4.0.0-0
 - Minor cleanup
 
