@@ -46,7 +46,7 @@ class simp_elasticsearch::simp_apache::defaults {
       # In general, this would be GET, POST, PUT, DELETE, HEAD, and OPTIONS
       'hosts'  => {
         '127.0.0.1' => 'defaults',
-        "$::fqdn"   => 'defaults'
+        "${::fqdn}"   => 'defaults'
       }
     }
   }

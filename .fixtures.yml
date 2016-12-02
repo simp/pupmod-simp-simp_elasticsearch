@@ -73,9 +73,6 @@ fixtures:
     stunnel:
       repo: https://github.com/simp/pupmod-simp-stunnel
       branch: master
-    sysctl:
-      repo: https://github.com/simp/pupmod-simp-sysctl
-      branch: master
     tcpwrappers:
       repo: https://github.com/simp/pupmod-simp-tcpwrappers
       branch: master

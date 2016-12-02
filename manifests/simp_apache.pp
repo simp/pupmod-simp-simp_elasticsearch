@@ -184,13 +184,7 @@ class simp_elasticsearch::simp_apache (
     }
 
     $_apache_limits = apache_limits($_method_acl['limits'])
-
-    file { "${es_httpd_includes}/limit/limits.conf":
-      ensure  => 'file',
-      owner   => 'root',
-      group   => 'apache',
-      mode    => '0640',
-      content => $_apache_limits ? {
+    $_apache_limits_content = $_apache_limits ? {
         # Set some sane defaults.
         ''      => "<Limit GET POST PUT DELETE>
             Order deny,allow
@@ -199,7 +193,14 @@ class simp_elasticsearch::simp_apache (
             Allow from ${::fqdn}
           </Limit>",
         default => "${_apache_limits}\n"
-      },
+    }
+
+    file { "${es_httpd_includes}/limit/limits.conf":
+      ensure  => 'file',
+      owner   => 'root',
+      group   => 'apache',
+      mode    => '0640',
+      content => $_apache_limits_content,
       notify  => Service['httpd']
     }
   }

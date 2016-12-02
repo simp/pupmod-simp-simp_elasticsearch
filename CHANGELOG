@@ -1,3 +1,6 @@
+* Thu Dec 02 2016 Nick Markowski <nmarkowski@keywcorp.com> - 4.0.1-0
+- Removed pupmod-simp-sysctl in favor of augeas-sysctl
+
 * Sun Nov 26 2016 Trevor Vaughan <tvaughan@onyxpoint.com> - 4.0.0-0
 - Fixed RPM dependencies
 
