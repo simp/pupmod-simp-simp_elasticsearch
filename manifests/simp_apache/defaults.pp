@@ -13,7 +13,7 @@ class simp_elasticsearch::simp_apache::defaults {
     $_ldap_search = ''
   }
   else {
-    $_ldap_search = "ou=People,${$_base_dn}"
+    $_ldap_search = "ou=People,${_base_dn}"
   }
 
   $method_acl = {
@@ -25,7 +25,7 @@ class simp_elasticsearch::simp_apache::defaults {
       },
       # Use LDAP for access control
       'ldap'    => {
-        'enable'    => false,
+        'enable'      => false,
         'url'         => hiera('ldap::uri',''),
         'security'    => 'STARTTLS',
         'binddn'      => hiera('ldap::bind_dn',''),
@@ -45,8 +45,8 @@ class simp_elasticsearch::simp_apache::defaults {
       #
       # In general, this would be GET, POST, PUT, DELETE, HEAD, and OPTIONS
       'hosts'  => {
-        '127.0.0.1' => 'defaults',
-        "$::fqdn"   => 'defaults'
+        '127.0.0.1'    => 'defaults',
+        $facts['fqdn'] => 'defaults'
       }
     }
   }
