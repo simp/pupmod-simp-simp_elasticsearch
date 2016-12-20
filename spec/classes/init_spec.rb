@@ -4,6 +4,7 @@ describe 'simp_elasticsearch' do
   context 'supported operating systems' do
     on_supported_os.each do |os, facts|
       let(:facts){ facts }
+      let(:precondition) { 'include simp_apache' }
       default_params = {
         :cluster_name => 'es_cluster'
       }
