@@ -7,7 +7,7 @@
 #
 class simp_elasticsearch::simp_apache::defaults {
 
-  $_base_dn = hiera('ldap::base_dn','')
+  $_base_dn = hiera('simp_options::ldap::base_dn','')
 
   if empty($_base_dn) {
     $_ldap_search = ''
@@ -26,10 +26,10 @@ class simp_elasticsearch::simp_apache::defaults {
       # Use LDAP for access control
       'ldap'    => {
         'enable'      => false,
-        'url'         => hiera('ldap::uri',''),
+        'url'         => hiera('simp_options::ldap::uri',''),
         'security'    => 'STARTTLS',
-        'binddn'      => hiera('ldap::bind_dn',''),
-        'bindpw'      => hiera('ldap::bind_pw',''),
+        'binddn'      => hiera('simp_options::ldap::bind_dn',''),
+        'bindpw'      => hiera('simp_options::ldap::bind_pw',''),
         'search'      => $_ldap_search,
         'posix_group' => true
       }

@@ -2,19 +2,19 @@
 # ElasticSearch. The defaults are targeted toward making the interface as
 # highly available as possible without regard to system load.
 #
-# @param manage_http [Boolean] Whether or not to manage the httpd daemon/apache
+# @param manage_http Whether or not to manage the httpd daemon/apache
 #   itself.
 #
 #   @note This class assumes that you're using the simp-supplied apache module
 #     and calls apache::add_site accordingly. If you're not comfortable doing
 #     this, you don't want to use this module.
 #
-# @param listen [Port] The port upon which to listen for HTTP connections.
+# @param listen The port upon which to listen for HTTP connections.
 #
-# @param proxy_port [Port] The port to proxy HTTP connections to on the local
+# @param proxy_port The port to proxy HTTP connections to on the local
 #   system.
 #
-# @param method_acl [Hash] Users, Groups, and Hosts HTTP operation ACL
+# @param method_acl Users, Groups, and Hosts HTTP operation ACL
 #   management. Keys are the relevant entry to allow and values are an Array of
 #   operations to allow the key to use.
 #
@@ -190,7 +190,7 @@ class simp_elasticsearch::simp_apache (
             Order deny,allow
             Deny from all
             Allow from 127.0.0.1
-            Allow from ${::fqdn}
+            Allow from ${facts['fqdn']}
           </Limit>",
         default => "${_apache_limits}\n"
     }

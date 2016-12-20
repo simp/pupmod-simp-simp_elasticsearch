@@ -69,7 +69,7 @@ fixtures:
       branch: master
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
-      branch: simp-master
+      branch: master
     stunnel:
       repo: https://github.com/simp/pupmod-simp-stunnel
       branch: master
