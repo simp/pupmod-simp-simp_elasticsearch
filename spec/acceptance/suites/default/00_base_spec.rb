@@ -1,4 +1,5 @@
 require 'spec_helper_acceptance'
+require 'json'
 
 test_name 'simp_elasticsearch class'
 
@@ -63,6 +64,8 @@ use_iptables : true
         # Need to get the secondary interface
         interfaces = fact_on(host, 'interfaces').split(',')
         interfaces.delete('lo')
+        # net_hash = JSON.load(fact_on(host, %(networking)))
+        # ipaddr = net_hash['interfaces'][interfaces.sort.last]['ip']
         ipaddr = fact_on(host, %(ipaddress_#{interfaces.sort.last}))
 
         hdata = hieradata.dup

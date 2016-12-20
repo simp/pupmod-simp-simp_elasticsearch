@@ -100,31 +100,21 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_elasticsearch::simp_apache (
-  $manage_httpd                 = true,
-  $listen                       = '9200',
-  $proxyport                    = '9199',
-  $ssl_protocols                = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
-  $ssl_cipher_suite             = hiera('openssl::cipher_suite',['HIGH']),
-  $ssl_certificate_file         = "/etc/pki/public/${::fqdn}.pub",
-  $ssl_certificate_key_file     = "/etc/pki/private/${::fqdn}.pem",
-  $ssl_ca_certificate_path      = '/etc/pki/cacerts',
-  $ssl_verify_client            = 'require',
-  $ssl_verify_depth             = '10',
-  $method_acl                   = {}
+  Boolean              $manage_httpd             = true,
+  Simplib::Port        $listen                   = 9200,
+  Simplib::Port        $proxyport                = 9199,
+  Array[String]        $ssl_protocols            = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
+  Array[String]        $ssl_cipher_suite         = simplib::lookup('options::openssl::cipher_suite', { 'default_value' => ['HIGH'] },
+  Stdlib::AbsolutePath $ssl_certificate_file     = "/etc/pki/public/${facts['fqdn']}.pub",
+  Stdlib::AbsolutePath $ssl_certificate_key_file = "/etc/pki/private/${facts['fqdn']}.pem",
+  Stdlib::AbsolutePath $ssl_ca_certificate_path  = '/etc/pki/cacerts',
+  String               $ssl_verify_client        = 'require',
+  Integer              $ssl_verify_depth         = 10,
+  Hash                 $method_acl               = {}
 ) {
-
-  validate_array($ssl_protocols)
-  validate_array($ssl_cipher_suite)
-
-  # Option Validation (unless handled elsewhere)
-  validate_port($listen)
-  validate_port($proxyport)
 
   include '::simp_elasticsearch::simp_apache::defaults'
   include '::simp_apache::validate'
-
-  # Make sure we were actually given a hash.
-  validate_hash($method_acl)
 
   $_method_acl = deep_merge(
     $::simp_elasticsearch::simp_apache::defaults::method_acl,
