@@ -15,10 +15,10 @@ describe 'simp_elasticsearch class' do
       pattern => 'ALL'
     }
 
-    iptables::add_tcp_stateful_listen { 'i_love_testing':
-      order => '8',
-      client_nets => 'ALL',
-      dports => '22'
+    iptables::listen::tcp_stateful { 'i_love_testing':
+      order        => '8',
+      trusted_nets => 'ALL',
+      dports       => 22
     }
   EOM
 
@@ -43,18 +43,16 @@ simp_elasticsearch::bind_host : '#IPADDRESS#'
 simp_elasticsearch::unicast_hosts :
   - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
 
-use_simp_pki : false
-
 simp_apache::rsync_web_root : false
-rsync::server : "%{::fqdn}"
+simp_options::rsync::server : "%{::fqdn}"
 
-client_nets:
+simp_options::trusted_nets:
   - 'ALL'
 
 pki_dir : '/etc/pki/simp-testing/pki'
 
-use_simp_pki : false
-use_iptables : true
+simp_options::pki : false
+simp_options::iptables : true
     EOS
   }
 

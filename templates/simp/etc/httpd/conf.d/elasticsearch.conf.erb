@@ -8,10 +8,10 @@ Listen <%= @listen %>
   SSLEngine on
 
   SSLProtocol <%= @ssl_protocols.join(' ') %>
-  SSLCipherSuite <%= @ssl_cipher_suite.join(':') %>
-  SSLCertificateFile <%= @_ssl_certificate_file %>
-  SSLCertificateKeyFile <%= @_ssl_certificate_key_file %>
-  SSLCACertificatePath <%= @_ssl_ca_certificate_path %>
+  SSLCipherSuite <%= @cipher_suite.join(':') %>
+  SSLCertificateFile <%= @_app_pki_cert %>
+  SSLCertificateKeyFile <%= @_app_pki_key %>
+  SSLCACertificatePath <%= @_app_pki_ca_dir %>
 
   SSLVerifyClient <%= @ssl_verify_client %>
   SSLVerifyDepth <%= @ssl_verify_depth %>

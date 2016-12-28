@@ -100,17 +100,17 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_elasticsearch::simp_apache (
-  Boolean              $manage_httpd             = true,
-  Simplib::Port        $listen                   = 9200,
-  Simplib::Port        $proxyport                = 9199,
-  Array[String]        $ssl_protocols            = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
-  Array[String]        $ssl_cipher_suite         = simplib::lookup('options::openssl::cipher_suite', { 'default_value' => ['HIGH'] },
-  Stdlib::AbsolutePath $ssl_certificate_file     = "/etc/pki/public/${facts['fqdn']}.pub",
-  Stdlib::AbsolutePath $ssl_certificate_key_file = "/etc/pki/private/${facts['fqdn']}.pem",
-  Stdlib::AbsolutePath $ssl_ca_certificate_path  = '/etc/pki/cacerts',
-  String               $ssl_verify_client        = 'require',
-  Integer              $ssl_verify_depth         = 10,
-  Hash                 $method_acl               = {}
+  Boolean              $manage_httpd      = true,
+  Simplib::Port        $listen            = 9200,
+  Simplib::Port        $proxyport         = 9199,
+  Array[String]        $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
+  Stdlib::AbsolutePath $app_pki_cert      = "/etc/pki/public/${facts['fqdn']}.pub",
+  Stdlib::AbsolutePath $app_pki_key       = "/etc/pki/private/${facts['fqdn']}.pem",
+  Stdlib::AbsolutePath $app_pki_ca_dir    = '/etc/pki/cacerts',
+  Array[String]        $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
+  String               $ssl_verify_client = 'require',
+  Integer              $ssl_verify_depth  = 10,
+  Hash                 $method_acl        = {}
 ) {
 
   include '::simp_elasticsearch::simp_apache::defaults'
@@ -134,9 +134,9 @@ class simp_elasticsearch::simp_apache (
     include 'simp_apache::ssl'
     include 'simp_apache::conf'
 
-    $_ssl_certificate_file = $::simp_apache::ssl::sslcertificatefile
-    $_ssl_certificate_key_file = $::simp_apache::ssl::sslcertificatekeyfile
-    $_ssl_ca_certificate_path = $::simp_apache::ssl::sslcacertificatepath
+    $_app_pki_cert   = $::simp_apache::ssl::app_pki_cert
+    $_app_pki_key    = $::simp_apache::ssl::app_pki_key
+    $_app_pki_ca_dir = $::simp_apache::ssl::app_pki_ca_dir
 
     simp_apache::add_site { 'elasticsearch':
       content => template("${module_name}/simp/etc/httpd/conf.d/elasticsearch.conf.erb")
@@ -195,8 +195,8 @@ class simp_elasticsearch::simp_apache (
     }
   }
   else {
-    $_ssl_certificate_file = $ssl_certificate_file
-    $_ssl_certificate_key_file = $ssl_certificate_key_file
-    $_ssl_ca_certificate_path = $ssl_ca_certificate_path
+    $_app_pki_cert   = $app_pki_cert
+    $_app_pki_key    = $app_pki_key
+    $_app_pki_ca_dir = $app_pki_ca_dir
   }
 }
