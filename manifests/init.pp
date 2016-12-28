@@ -248,7 +248,7 @@ fi
         if defined('$_macl_limits') and !empty($_macl_limits) {
           $_macl_hosts = $_macl_limits['hosts']
           if defined('$_macl_hosts') and !empty($_macl_hosts) {
-            iptables::add_tcp_stateful_listen { 'elasticsearch_allow_remote':
+            iptables::listen::tcp_stateful{ 'elasticsearch_allow_remote':
               client_nets => keys($_macl_hosts),
               dports      => [ 9200 ]
             }
@@ -258,11 +258,11 @@ fi
     }
   }
 
-  pam::limits::add { 'es_heap_sizelock':
-    domain => 'elasticsearch',
+  pam::limits::rule { 'es_heap_sizelock':
+    domains => ['elasticsearch'],
     type   => '-',
     item   => 'memlock',
     value  => 'unlimited',
-    order  => '0'
+    order  => 0
   }
 }
