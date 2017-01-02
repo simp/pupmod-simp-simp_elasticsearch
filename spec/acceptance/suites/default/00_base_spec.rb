@@ -24,6 +24,10 @@ describe 'simp_elasticsearch class' do
 
   let(:manifest) {
     <<-EOS
+      pki::copy { '/etc/httpd/conf':
+        source => '/etc/pki/simp-testing/pki',
+        before => Class['simp_elasticsearch']
+      }
 
       include '::simp_elasticsearch'
 
