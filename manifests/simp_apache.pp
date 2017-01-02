@@ -105,7 +105,6 @@ class simp_elasticsearch::simp_apache (
   Simplib::Port                  $proxyport         = 9199,
   Array[String]                  $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
   Array[String]                  $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
-  Optional[String]               $resource          = $::simp_elasticsearch::http_service_resource,
   String                         $apache_user       = 'root',
   String                         $apache_group      = 'apache',
   String                         $ssl_verify_client = 'require',
@@ -131,10 +130,6 @@ class simp_elasticsearch::simp_apache (
 
     $es_httpd_includes = '/etc/httpd/conf.d/elasticsearch'
 
-    # if using simp_apache to manage httpd server then let simp_apache
-    # manage the certs and set resource for httpd service,
-    #  otherwise use the elasticsearch pki module and set resource to
-    #  simp_elasticsearch::http_service_resource.
     if $manage_httpd == 'conf' {
       include simp_elasticsearch::pki
 
