@@ -93,6 +93,8 @@
 #     * true  => Manage the entire web stack.
 #     * false => Manage nothing.
 #     * conf  => Just drop the configuration file into /etc/httpd/conf.d
+#       note:  conf assumes you have apache installed and that Service['httpd'] exists 
+#              somewhere in the catalog.
 #
 # @param restart_on_change Whether or not to restart on a
 #   configuration change.
@@ -146,9 +148,9 @@ class simp_elasticsearch (
   Variant[Boolean,Enum['conf']]   $manage_httpd           = true,
   Simplib::NetList                $https_client_nets      = ['127.0.0.1'],
   Boolean                         $restart_on_change      = true,
-  Boolean                         $firewall               = true,
+  Boolean                         $firewall               = simplib::lookup('simp_options::firewall', { 'default_value' => false}),
   Boolean                         $install_unix_utils     = true,
-  Boolean                         $spawn_default_instance = true
+  Boolean                         $spawn_default_instance = true,
 ) {
   include '::simp_elasticsearch::defaults'
   include '::pam::limits'
@@ -225,18 +227,11 @@ fi
     }
   }
 
-  if $manage_httpd == 'conf' {
+  if $manage_httpd or $manage_httpd == 'conf' {
     class { 'simp_elasticsearch::simp_apache':
-      manage_httpd => false,
+      manage_httpd => $manage_httpd,
       proxyport    => $_config['http']['port'],
-      method_acl   => $http_method_acl
-    }
-  }
-  elsif $manage_httpd {
-    # Manage both apache and the config.
-    class { 'simp_elasticsearch::simp_apache':
-      proxyport  => $_config['http']['port'],
-      method_acl => $http_method_acl
+      method_acl   => $http_method_acl,
     }
   }
 
@@ -260,9 +255,9 @@ fi
 
   pam::limits::rule { 'es_heap_sizelock':
     domains => ['elasticsearch'],
-    type   => '-',
-    item   => 'memlock',
-    value  => 'unlimited',
-    order  => 0
+    type    => '-',
+    item    => 'memlock',
+    value   => 'unlimited',
+    order   => 0,
   }
 }

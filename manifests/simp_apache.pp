@@ -100,64 +100,75 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_elasticsearch::simp_apache (
-  Boolean              $manage_httpd      = true,
-  Simplib::Port        $listen            = 9200,
-  Simplib::Port        $proxyport         = 9199,
-  Array[String]        $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
-  Stdlib::AbsolutePath $app_pki_cert      = "/etc/pki/public/${facts['fqdn']}.pub",
-  Stdlib::AbsolutePath $app_pki_key       = "/etc/pki/private/${facts['fqdn']}.pem",
-  Stdlib::AbsolutePath $app_pki_ca_dir    = '/etc/pki/cacerts',
-  Array[String]        $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
-  String               $ssl_verify_client = 'require',
-  Integer              $ssl_verify_depth  = 10,
-  Hash                 $method_acl        = {}
+  Variant[Boolean,Enum['conf']]  $manage_httpd,
+  Simplib::Port                  $listen            = 9200,
+  Simplib::Port                  $proxyport         = 9199,
+  Array[String]                  $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
+  Array[String]                  $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
+  Optional[String]               $resource          = $::simp_elasticsearch::http_service_resource,
+  String                         $apache_user       = 'root',
+  String                         $apache_group      = 'apache',
+  String                         $ssl_verify_client = 'require',
+  Integer                        $ssl_verify_depth  = 10,
+  Hash                           $method_acl        = {},
 ) {
 
-  include '::simp_elasticsearch::simp_apache::defaults'
-  include '::simp_apache::validate'
-
-  $_method_acl = deep_merge(
-    $::simp_elasticsearch::simp_apache::defaults::method_acl,
-    $method_acl
-  )
-
-  validate_deep_hash( $::simp_apache::validate::method_acl, $_method_acl)
-
-  # These only work because we guarantee that we have content here.
-  validate_absolute_path($_method_acl['method']['file']['user_file'])
-  validate_bool_simp($_method_acl['method']['ldap']['posix_group'])
-  validate_net_list(keys($_method_acl['limits']['hosts']))
-
-  $es_httpd_includes = '/etc/httpd/conf.d/elasticsearch'
-
   if $manage_httpd or $manage_httpd == 'conf' {
-    include 'simp_apache::ssl'
-    include 'simp_apache::conf'
+    include '::simp_elasticsearch::simp_apache::defaults'
+    include '::simp_apache::validate'
 
-    $_app_pki_cert   = $::simp_apache::ssl::app_pki_cert
-    $_app_pki_key    = $::simp_apache::ssl::app_pki_key
-    $_app_pki_ca_dir = $::simp_apache::ssl::app_pki_ca_dir
+    $_method_acl = deep_merge(
+      $::simp_elasticsearch::simp_apache::defaults::method_acl,
+      $method_acl
+    )
 
-    simp_apache::add_site { 'elasticsearch':
-      content => template("${module_name}/simp/etc/httpd/conf.d/elasticsearch.conf.erb")
+    validate_deep_hash( $::simp_apache::validate::method_acl, $_method_acl)
+
+    # These only work because we guarantee that we have content here.
+    validate_absolute_path($_method_acl['method']['file']['user_file'])
+    validate_bool_simp($_method_acl['method']['ldap']['posix_group'])
+    validate_net_list(keys($_method_acl['limits']['hosts']))
+
+    $es_httpd_includes = '/etc/httpd/conf.d/elasticsearch'
+
+    # if using simp_apache to manage httpd server then let simp_apache
+    # manage the certs and set resource for httpd service,
+    #  otherwise use the elasticsearch pki module and set resource to
+    #  simp_elasticsearch::http_service_resource.
+    if $manage_httpd == 'conf' {
+      include simp_elasticsearch::pki
+
+      $_app_pki_cert   = $::simp_elasticsearch::pki::app_pki_cert
+      $_app_pki_key    = $::simp_elasticsearch::pki::app_pki_key
+      $_app_pki_ca_dir = $::simp_elasticsearch::pki::app_pki_ca_dir
+
+    } else {
+
+      include ::simp_apache
+      include ::simp_apache::ssl
+
+      $_app_pki_cert   = $::simp_apache::ssl::app_pki_cert
+      $_app_pki_key    = $::simp_apache::ssl::app_pki_key
+      $_app_pki_ca_dir = $::simp_apache::ssl::app_pki_ca_dir
+
     }
 
     file { $es_httpd_includes:
-      ensure  => 'directory',
-      owner   => 'root',
-      group   => 'apache',
-      mode    => '0640',
-      require => Package['httpd']
+      ensure => 'directory',
+      owner  => $apache_user,
+      group  => $apache_group,
+      mode   => '0640',
     }
 
     file { [
       "${es_httpd_includes}/auth",
       "${es_httpd_includes}/limit",
     ]:
-      ensure => 'directory',
-      owner  => 'root',
-      group  => 'apache',
-      mode   => '0640'
+      ensure  => 'directory',
+      owner   => $apache_user,
+      group   => $apache_group,
+      mode    => '0640',
+      require => File[$es_httpd_includes]
     }
 
     $_apache_auth = apache_auth($_method_acl['method'])
@@ -165,38 +176,40 @@ class simp_elasticsearch::simp_apache (
     if !empty($_apache_auth) {
       file { "${es_httpd_includes}/auth/auth.conf":
         ensure  => 'file',
-        owner   => 'root',
-        group   => 'apache',
+        owner   => $apache_user,
+        group   => $apache_group,
         mode    => '0640',
         content => "${_apache_auth}\n",
-        notify  => Service['httpd']
+        notify  => Service['httpd'],
+        require => File[ "${es_httpd_includes}/auth", "${es_httpd_includes}/limit"]
       }
     }
 
     $_apache_limits = apache_limits($_method_acl['limits'])
     $_apache_limits_content = $_apache_limits ? {
-        # Set some sane defaults.
-        ''      => "<Limit GET POST PUT DELETE>
-            Order deny,allow
-            Deny from all
-            Allow from 127.0.0.1
-            Allow from ${facts['fqdn']}
-          </Limit>",
-        default => "${_apache_limits}\n"
+      # Set some sane defaults.
+      ''      => "<Limit GET POST PUT DELETE>
+          Order deny,allow
+          Deny from all
+          Allow from 127.0.0.1
+          Allow from ${facts['fqdn']}
+        </Limit>",
+      default => "${_apache_limits}\n"
     }
 
     file { "${es_httpd_includes}/limit/limits.conf":
       ensure  => 'file',
-      owner   => 'root',
-      group   => 'apache',
+      owner   => $apache_user,
+      group   => $apache_group,
       mode    => '0640',
       content => $_apache_limits_content,
+      require => File[ "${es_httpd_includes}/auth", "${es_httpd_includes}/limit"],
       notify  => Service['httpd']
     }
-  }
-  else {
-    $_app_pki_cert   = $app_pki_cert
-    $_app_pki_key    = $app_pki_key
-    $_app_pki_ca_dir = $app_pki_ca_dir
+
+    simp_apache::site { 'elasticsearch':
+      content => template("${module_name}/simp/etc/httpd/conf.d/elasticsearch.conf.erb")
+    }
+
   }
 }

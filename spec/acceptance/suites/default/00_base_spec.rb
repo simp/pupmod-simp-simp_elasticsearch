@@ -16,18 +16,14 @@ describe 'simp_elasticsearch class' do
     }
 
     iptables::listen::tcp_stateful { 'i_love_testing':
-      order        => '8',
-      trusted_nets => 'ALL',
+      order        => 8,
+      trusted_nets => ['10.0.0.0/16','127.0.0.0/2'],
       dports       => 22
     }
   EOM
 
   let(:manifest) {
     <<-EOS
-      pki::copy { '/etc/httpd/conf':
-        source => '/etc/pki/simp-testing/pki',
-        before => Class['simp_elasticsearch']
-      }
 
       include '::simp_elasticsearch'
 
@@ -44,15 +40,13 @@ simp_elasticsearch::unicast_hosts :
   - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
 
 simp_apache::rsync_web_root : false
-simp_options::rsync::server : "%{::fqdn}"
+simplib::options::rsync::server : "%{::fqdn}"
 
-simp_options::trusted_nets:
-  - 'ALL'
+simp_elasticsearch::pki::app_pki_dir : '/etc/pki/es'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-simp_options::pki : false
-simp_options::iptables : true
+simplib::options::app_pki_external_source : '/etc/pki/simp-testing/pki'
+simplib::options::pki : false
+simplib::options::iptables : true
     EOS
   }
 
