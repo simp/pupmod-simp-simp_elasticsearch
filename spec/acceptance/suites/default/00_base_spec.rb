@@ -40,13 +40,13 @@ simp_elasticsearch::unicast_hosts :
   - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
 
 simp_apache::rsync_web_root : false
-simplib::options::rsync::server : "%{::fqdn}"
+simp_options::rsync::server : "%{::fqdn}"
 
 simp_elasticsearch::pki::app_pki_dir : '/etc/pki/es'
 
-simplib::options::app_pki_external_source : '/etc/pki/simp-testing/pki'
-simplib::options::pki : false
-simplib::options::iptables : true
+simp_options::app_pki_external_source : '/etc/pki/simp-testing/pki'
+simp_options::pki : false
+simp_options::firewall : true
     EOS
   }
 
