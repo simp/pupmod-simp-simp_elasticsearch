@@ -1,3 +1,4 @@
 ---
-client_nets : '1.2.3.4/16'
-rsync::server : '%{::fqdn}'
+simp_options::trusted_nets :
+  - '1.2.3.4/16'
+simp_options::rsync::server : '%{::fqdn}'

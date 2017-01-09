@@ -51,7 +51,7 @@
 #
 #     @see simp_elasticsearch::apache option 'method_acl'
 #
-# @param https_client_nets This is an array of IPs/hosts to
+# @param https_trusted_nets This is an array of IPs/hosts to
 #   allow to connect to the https service. If you're using ES for LogStash,
 #   then all clients that should be able to connect to this node in order to
 #   store data into ES should be allowed.
@@ -93,7 +93,7 @@
 #     * true  => Manage the entire web stack.
 #     * false => Manage nothing.
 #     * conf  => Just drop the configuration file into /etc/httpd/conf.d
-#       note:  conf assumes you have apache installed and that Service['httpd'] exists 
+#       note:  conf assumes you have apache installed and that Service['httpd'] exists
 #              somewhere in the catalog.
 #
 # @param restart_on_change Whether or not to restart on a
@@ -146,7 +146,7 @@ class simp_elasticsearch (
   String                          $max_locked_memory      = '',
   String                          $max_open_files         = '',
   Variant[Boolean,Enum['conf']]   $manage_httpd           = true,
-  Simplib::NetList                $https_client_nets      = ['127.0.0.1'],
+  Simplib::NetList                $https_trusted_nets     = ['127.0.0.1'],
   Boolean                         $restart_on_change      = true,
   Boolean                         $firewall               = simplib::lookup('simp_options::firewall', { 'default_value' => false}),
   Boolean                         $install_unix_utils     = true,
@@ -244,7 +244,7 @@ fi
           $_macl_hosts = $_macl_limits['hosts']
           if defined('$_macl_hosts') and !empty($_macl_hosts) {
             iptables::listen::tcp_stateful{ 'elasticsearch_allow_remote':
-              client_nets => keys($_macl_hosts),
+              trusted_nets => keys($_macl_hosts),
               dports      => [ 9200 ]
             }
           }
