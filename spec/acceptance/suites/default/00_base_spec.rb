@@ -22,18 +22,7 @@ describe 'simp_elasticsearch class' do
     }
   EOM
 
-  let(:manifest) {
-    <<-EOS
-      pki::copy { '/etc/httpd/conf':
-        source => '/etc/pki/simp-testing/pki',
-        before => Class['simp_elasticsearch']
-      }
-
-      include '::simp_elasticsearch'
-
-      #{ssh_allow}
-    EOS
-  }
+  let(:manifest) { "include '::simp_elasticsearch'" }
 
   let(:hieradata) {
     <<-EOS
@@ -46,10 +35,9 @@ simp_elasticsearch::unicast_hosts :
 simp_apache::rsync_web_root : false
 simp_options::rsync::server : "%{::fqdn}"
 
-simp_elasticsearch::pki::app_pki_dir : '/etc/pki/es'
+simp_options::pki : true
+simp_options::pki::source : '/etc/pki/simp-testing/pki'
 
-simp_options::app_pki_external_source : '/etc/pki/simp-testing/pki'
-simp_options::pki : false
 simp_options::firewall : true
     EOS
   }

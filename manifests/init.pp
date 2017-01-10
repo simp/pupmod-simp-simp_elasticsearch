@@ -245,7 +245,7 @@ fi
           if defined('$_macl_hosts') and !empty($_macl_hosts) {
             iptables::listen::tcp_stateful{ 'elasticsearch_allow_remote':
               trusted_nets => keys($_macl_hosts),
-              dports      => [ 9200 ]
+              dports       => [ 9200 ]
             }
           }
         }

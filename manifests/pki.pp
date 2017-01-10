@@ -1,51 +1,59 @@
 # This copies pki certificates if required
 #
-#  This module is not called if simp_apache is managing the apache server because
-#  simp_apache will manage the certificates then.
+# This module is not called if simp_apache is managing the apache server because
+# simp_apache will manage the certificates then.
 #
-#  @param pki  If false you must set the app_pki_[cert,key,ca_dir] variables for
-#  this module else it will copy the certs from app_pki_external_source to app_pki_dir
-#  and set those variables as defined in pki::copy.
+# @param pki
+#   * If 'simp', include SIMP's pki module and use pki::copy to manage
+#     application certs in /etc/pki/simp_apps/simp_elasticsearch/pki
+#   * If true, do *not* include SIMP's pki module, but still use pki::copy
+#     to manage certs in /etc/pki/simp_apps/simp_elasticsearch/pki
+#   * If false, do not include SIMP's pki module and do not use pki::copy
+#     to manage certs.  You will need to appropriately assign a subset of:
+#     * app_pki_dir
+#     * app_pki_key
+#     * app_pki_cert
+#     * app_pki_ca
+#     * app_pki_ca_dir
+#
+# @param app_pki_external_source
+#   * If pki = 'simp' or true, this is the directory from which certs will be
+#     copied, via pki::copy.  Defaults to /etc/pki/simp.
+#
+#   * If pki = false, this variable has no effect.
+#
+# @param app_pki_dir
+#   This variable controls the basepath of $app_pki_key, $app_pki_cert,
+#   $app_pki_ca, $app_pki_ca_dir, and $app_pki_crl.
+#   It defaults to /etc/pki/simp_apps/simp_elasticsearch/pki.
+#
+# @param app_pki_key
+#   Path and name of the private SSL key file
+#
+# @param app_pki_cert
+#   Path and name of the public SSL certificate
+#
+# @param app_pki_ca_dir
+#   Path to the CA.
 #
 class simp_elasticsearch::pki(
-  Variant[Boolean,Enum['simp']] $pki               = simplib::lookup('simplib_options::pki' , { 'default_value' => false }),
-  Stdlib::AbsolutePath          $app_pki_cert      = "/etc/pki/simp/public/${facts['fqdn']}.pub",
-  Stdlib::AbsolutePath          $app_pki_key       = "/etc/pki/simp/private/${facts['fqdn']}.pem",
-  Stdlib::AbsolutePath          $app_pki_ca_dir    = '/etc/pki/simp/cacerts',
-  Stdlib::AbsolutePath          $app_pki_dir       = '/etc/pki/elasticsearch',
-  Stdlib::AbsolutePath          $app_pki_external_source = simplib::lookup('simplib_options::app_pki_external_source',{ 'default_value' => '/etc/pki/simp'}),
-  String                        $group             = 'apache',
-  String                        $owner             = 'root'
+  Variant[Boolean,Enum['simp']] $pki                     = simplib::lookup('simp_options::pki' , { 'default_value' => false }),
+  Stdlib::Absolutepath          $app_pki_external_source = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/simp/pki' }),
+  Stdlib::AbsolutePath          $app_pki_dir             = '/etc/pki/simp_apps/simp_elasticsearch/pki',
+  Stdlib::AbsolutePath          $app_pki_cert            = "${app_pki_dir}/public/${facts['fqdn']}.pub",
+  Stdlib::AbsolutePath          $app_pki_key             = "${app_pki_dir}/private/${facts['fqdn']}.pem",
+  Stdlib::AbsolutePath          $app_pki_ca_dir          = "${app_pki_dir}/cacerts",
+  String                        $group                   = 'apache',
+  String                        $owner                   = 'root'
 ){
 
   if $pki {
-
-    ::pki::copy { $app_pki_dir :
+    ::pki::copy { 'simp_elasticsearch' :
       source => $app_pki_external_source,
       pki    => $pki,
       owner  => $owner,
       group  => $group,
       notify => $::simp_elasticsearch::http_service_resource
-    }
-
-    $app_pki_cert = "${app_pki_dir}/public/${::fqdn}.pub"
-    $app_pki_key  = "${app_pki_dir}/public/${facts['fqdn']}.pem"
-    $app_pki_ca_cert = "${app_pki_dir}/cacerts"
-
-  } else {
-
-    file { [ $app_pki_cert, $app_pki_key ] :
-      ensure => file,
-      mode   => '0640',
-      owner  => $owner,
-      group  => $group
-    }
-
-    file { $app_pki_ca_dir :
-      ensure => directory,
-      mode   => '0640',
-      owner  => $owner,
-      group  => $group
     }
   }
 }

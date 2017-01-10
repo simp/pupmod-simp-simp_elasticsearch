@@ -23,9 +23,9 @@ describe 'simp_elasticsearch' do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_class('simp_elasticsearch') }
         it { is_expected.to_not create_class('iptables') }
-        it { is_expected.to create_class('simp_elasticsearch::simp_apache') }
         it { is_expected.to create_class('pam::limits') }
         it { is_expected.to create_class('simp_apache') }
+        it { is_expected.to create_class('simp_elasticsearch::simp_apache') }
       end
 
      context "with manage_httpd and firewall" do
@@ -36,7 +36,8 @@ describe 'simp_elasticsearch' do
         end
         let(:pre_condition) {'include simp_apache'}
 
-        it {is_expected.to create_class('simp_elasticsearch::pki')}
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to create_class('simp_elasticsearch::pki')}
         it { is_expected.to create_class('iptables') }
         it { is_expected.to create_class('simp_elasticsearch::simp_apache') }
      end
