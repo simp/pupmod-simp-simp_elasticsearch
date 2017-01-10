@@ -17,90 +17,92 @@
 # unicast hosts list. We will be moving to use ipset in the future for
 # optimization.
 #
-# @param cluster_name [String] *Required* The name of the cluster that this
+# @param cluster_name *Required* The name of the cluster that this
 #   node will be joining.
 #
-# @param replicas [Integer] The number of replicas for the ES cluster.
+# @param replicas The number of replicas for the ES cluster.
 #
-# @param shards [Integer] The number of shards for the ES cluster.
+# @param shards The number of shards for the ES cluster.
 #
-# @param node_name [String] An arbitrary, unique name fo this node.
+# @param node_name An arbitrary, unique name fo this node.
 #
-# @param bind_host [IPAddress] The IP address to which to bind the cluster
+# @param bind_host The IP address to which to bind the cluster
 #   communications service.
 #
 #   @note Do NOT set this to 127.0.0.1 unless you *really* know what you are
 #     doing.
 #
-# @param http_bind_host [IPAddress] The IP address to which to bind the http
+# @param http_bind_host The IP address to which to bind the http
 #   service.
 #
 #   @note Do NOT set this to 127.0.0.1 unless you *really* know what you are
 #     doing.
 #
-# @param http_port [Port] This port will be exposed for http interactions into
+# @param http_port This port will be exposed for http interactions into
 #   the ES engine.
 #
 #   @note This will *not* be exposed directly through iptables unless set to
 #     9200. 9200 is the ES default so setting this to *anything else* means
 #     that you want to proxy and to not expose this port to the world.
 #
-# @param http_method_acl [Hash] This controls the remote accesses allowed to
+# @param http_method_acl This controls the remote accesses allowed to
 #   ES. This is quite complex and you should check the documentation carefully
 #   prior to proceeding.
 #
 #     @see simp_elasticsearch::apache option 'method_acl'
 #
-# @param https_client_nets [Array(Net_List)] This is an array of IPs/hosts to
+# @param https_trusted_nets This is an array of IPs/hosts to
 #   allow to connect to the https service. If you're using ES for LogStash,
 #   then all clients that should be able to connect to this node in order to
 #   store data into ES should be allowed.
 #
-# @param data_dir [AbsolutePath] The path where the data should be stored.  You
+# @param data_dir The path where the data should be stored.  You
 #   will need to create all parent directories, this module will not do it for
 #   you.
 #
-# @param min_master_nodes [Integer] The number of master nodes that consitutes
+# @param min_master_nodes The number of master nodes that consitutes
 #   an operational cluster.
 #
 #   @note If fewer than 3 unicast hosts are specified below, this will default
 #     to 1.
 #
-# @param unicast_hosts [Array(Net_list)] We do not support multicast joining
+# @param unicast_hosts We do not support multicast joining
 #   for security reasons. You must specify all of your hosts here.
 #
 #   @note It not recommended to change this default unless you have a different
 #     Hiera variable that you are using.
 #
-# @param init_defaults [Hash] Options that will be passed directly into
+# @param init_defaults Options that will be passed directly into
 #   /etc/sysconfig/elasticsearch. Anything passed in via this hash will be
 #   merged with the default hash.
 #
-# @param es_config [Hash] Options as required by the 'elasticsearch'
+# @param es_config Options as required by the 'elasticsearch'
 #   module.  If you specify your own hash, then it will be merged with the
 #   default.
 #
-# @param max_log_days [Float] The number of days of elasticsearch logs to keep
+# @param max_log_days The number of days of elasticsearch logs to keep
 #   on the system.
 #
 #   @note This will *not* remove files by size so watch your cluster disk space
 #     in /var/log.
 #
-# @param manage_httpd [String] Whether or not to manage the httpd configuration
+# @param manage_httpd Whether or not to manage the httpd configuration
 #   on this system.
 #
 #   May be One of `true`, `false`, or 'conf'
 #     * true  => Manage the entire web stack.
 #     * false => Manage nothing.
 #     * conf  => Just drop the configuration file into /etc/httpd/conf.d
+#       note:  conf assumes you have apache installed and that Service['httpd'] exists
+#              somewhere in the catalog.
 #
-# @param restart_on_change [Boolean] Whether or not to restart on a
+# @param restart_on_change Whether or not to restart on a
 #   configuration change.
 #
-# @param use_iptables [Boolean] Whether or not to use iptables for ES
+# @param firewall Whether or not to use iptables for ES
 #   connections.
 #
-# @param spawn_default_instance [Boolean] If set, create a default instance,
+# @param spawn_default_instance  If set, create a default instance,
 #   named 'simp', on the system.
 #
 # @example Local ES instance
@@ -119,56 +121,39 @@
 #
 # class { 'simp_elasticsearch':
 #   cluster_name        => 'multi',
-#   number_of_replicas  => '2',
-#   number_of_shards    => '8'
+#   number_of_replicas  => 2,
+#   number_of_shards    => 8
 # }
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
 # @copyright 2016 Onyx Point, Inc.
 class simp_elasticsearch (
-  $cluster_name,
-  $node_name = $::fqdn,
-  $replicas = '1',
-  $shards = '5',
-  $bind_host = $::ipaddress,
-  $http_bind_host = '127.0.0.1',
-  $http_port = '9199',
-  $http_method_acl = {},
-  $data_dir = versioncmp(simp_version(),'5') ? { '-1' => '/srv/elasticsearch', default => '/var/elasticsearch' },
-  $min_master_nodes = '2',
-  $unicast_hosts = ["${::fqdn}:9300"],
-  $init_defaults = {},
-  $es_config = {},
-  $max_log_days = '7',
-  $max_locked_memory = '',
-  $max_open_files = '',
-  $manage_httpd = true,
-  $https_client_nets = '127.0.0.1',
-  $restart_on_change = true,
-  $use_iptables = true,
-  $install_unix_utils = true,
-  $spawn_default_instance = true
+  String                          $cluster_name,
+  Simplib::Host                   $node_name              = $facts['fqdn'],
+  Integer[0]                      $replicas               = 1,
+  Integer[0]                      $shards                 = 5,
+  Simplib::Host                   $bind_host              = $facts['ipaddress'],
+  Simplib::Host                   $http_bind_host         = '127.0.0.1',
+  Simplib::Port                   $http_port              = 9199,
+  Hash                            $http_method_acl        = {},
+  Stdlib::AbsolutePath            $data_dir               = '/var/elasticsearch',
+  Integer[0]                      $min_master_nodes       = 2,
+  Array[Simplib::Host::Port]      $unicast_hosts          = ["${facts['fqdn']}:9300"],
+  Hash[Pattern['^[A-Z,_]+$'],Any] $init_defaults          = {},
+  Data                            $es_config              = {},
+  Numeric                         $max_log_days           = 7,
+  String                          $max_locked_memory      = '',
+  String                          $max_open_files         = '',
+  Variant[Boolean,Enum['conf']]   $manage_httpd           = true,
+  Simplib::NetList                $https_trusted_nets     = ['127.0.0.1'],
+  Boolean                         $restart_on_change      = true,
+  Boolean                         $firewall               = simplib::lookup('simp_options::firewall', { 'default_value' => false}),
+  Boolean                         $install_unix_utils     = true,
+  Boolean                         $spawn_default_instance = true,
 ) {
   include '::simp_elasticsearch::defaults'
   include '::pam::limits'
-
-  validate_integer($replicas)
-  validate_integer($shards)
-  validate_net_list($bind_host)
-  validate_net_list($http_bind_host)
-  validate_port($http_port)
-  validate_net_list($unicast_hosts,'^(any|ALL)$')
-  validate_hash($es_config)
-  validate_hash($init_defaults)
-  validate_re_array(keys($init_defaults),'^[A-Z,_]+$')
-  validate_float($max_log_days)
-  validate_array_member($manage_httpd,[true,false,'conf'])
-  validate_net_list($https_client_nets,'^(any|AlL)$')
-  validate_bool_simp($restart_on_change)
-  validate_bool_simp($use_iptables)
-  validate_bool($install_unix_utils)
-  validate_bool($spawn_default_instance)
 
   if !empty($es_config) {
     $_config = deep_merge($::simp_elasticsearch::defaults::base_config,$es_config)
@@ -233,7 +218,7 @@ fi
     force  => true
   }
 
-  if $use_iptables {
+  if $firewall {
     include '::iptables'
 
     iptables_rule { 'elasticsearch_allow_cluster':
@@ -242,32 +227,25 @@ fi
     }
   }
 
-  if $manage_httpd == 'conf' {
+  if $manage_httpd or $manage_httpd == 'conf' {
     class { 'simp_elasticsearch::simp_apache':
-      manage_httpd => false,
+      manage_httpd => $manage_httpd,
       proxyport    => $_config['http']['port'],
-      method_acl   => $http_method_acl
-    }
-  }
-  elsif $manage_httpd {
-    # Manage both apache and the config.
-    class { 'simp_elasticsearch::simp_apache':
-      proxyport  => $_config['http']['port'],
-      method_acl => $http_method_acl
+      method_acl   => $http_method_acl,
     }
   }
 
   if $manage_httpd {
     # Allow remote connections
-    if $use_iptables {
+    if $firewall {
       if !empty($http_method_acl) {
         $_macl_limits = $http_method_acl['limits']
         if defined('$_macl_limits') and !empty($_macl_limits) {
           $_macl_hosts = $_macl_limits['hosts']
           if defined('$_macl_hosts') and !empty($_macl_hosts) {
-            iptables::add_tcp_stateful_listen { 'elasticsearch_allow_remote':
-              client_nets => keys($_macl_hosts),
-              dports      => [ '9200' ]
+            iptables::listen::tcp_stateful{ 'elasticsearch_allow_remote':
+              trusted_nets => keys($_macl_hosts),
+              dports      => [ 9200 ]
             }
           }
         }
@@ -275,11 +253,11 @@ fi
     }
   }
 
-  pam::limits::add { 'es_heap_sizelock':
-    domain => 'elasticsearch',
-    type   => '-',
-    item   => 'memlock',
-    value  => 'unlimited',
-    order  => '0'
+  pam::limits::rule { 'es_heap_sizelock':
+    domains => ['elasticsearch'],
+    type    => '-',
+    item    => 'memlock',
+    value   => 'unlimited',
+    order   => 0,
   }
 }

@@ -1,4 +1,5 @@
 require 'spec_helper_acceptance'
+require 'json'
 
 test_name 'simp_elasticsearch class'
 
@@ -14,10 +15,10 @@ describe 'simp_elasticsearch class' do
       pattern => 'ALL'
     }
 
-    iptables::add_tcp_stateful_listen { 'i_love_testing':
-      order => '8',
-      client_nets => 'ALL',
-      dports => '22'
+    iptables::listen::tcp_stateful { 'i_love_testing':
+      order        => 8,
+      trusted_nets => ['10.0.0.0/16','127.0.0.0/2'],
+      dports       => 22
     }
   EOM
 
@@ -42,18 +43,14 @@ simp_elasticsearch::bind_host : '#IPADDRESS#'
 simp_elasticsearch::unicast_hosts :
   - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
 
-use_simp_pki : false
-
 simp_apache::rsync_web_root : false
-rsync::server : "%{::fqdn}"
+simp_options::rsync::server : "%{::fqdn}"
 
-client_nets:
-  - 'ALL'
+simp_elasticsearch::pki::app_pki_dir : '/etc/pki/es'
 
-pki_dir : '/etc/pki/simp-testing/pki'
-
-use_simp_pki : false
-use_iptables : true
+simp_options::app_pki_external_source : '/etc/pki/simp-testing/pki'
+simp_options::pki : false
+simp_options::firewall : true
     EOS
   }
 
@@ -63,6 +60,8 @@ use_iptables : true
         # Need to get the secondary interface
         interfaces = fact_on(host, 'interfaces').split(',')
         interfaces.delete('lo')
+        # net_hash = JSON.load(fact_on(host, %(networking)))
+        # ipaddr = net_hash['interfaces'][interfaces.sort.last]['ip']
         ipaddr = fact_on(host, %(ipaddress_#{interfaces.sort.last}))
 
         hdata = hieradata.dup

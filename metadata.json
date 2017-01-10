@@ -9,7 +9,9 @@
   "issues_url": "https://simp-project.atlassian.net",
   "tags": [
     "simp",
-    "logstash"
+    "logstash",
+    "elasticsearch",
+    "es"
   ],
   "dependencies": [
     {
@@ -26,11 +28,15 @@
     },
     {
       "name": "simp/simplib",
-      "version_requirement": ">= 2.0.0 < 3.0.0"
+      "version_requirement": ">= 3.1.0 < 4.0.0"
     },
     {
       "name": "simp/iptables",
-      "version_requirement": ">= 5.0.0 < 6.0.0"
+      "version_requirement": ">= 6.0.0 < 7.0.0"
+    },
+    {
+      "name": "puppetlabs/java",
+      "version_requirement": ">= 1.2.0 < 2.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -48,5 +54,16 @@
         "7"
       ]
     }
-  ]
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": "4.x"
+    },
+    {
+      "name": "pe",
+      "version_requirement": ">= 2016.2.0"
+    }
+  ],
+  "data_provider": "hiera"
 }

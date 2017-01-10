@@ -7,8 +7,7 @@ HOSTS:
       - elasticsearch_server
       - el7
     platform:   el-7-x86_64
-    box:        puppetlabs/centos-7.0-64-nocm
-    box_url:    https://vagrantcloud.com/puppetlabs/boxes/centos-7.0-64-nocm
+    box:        centos/7
     hypervisor: vagrant
     yum_repos:
       simp:
@@ -23,8 +22,7 @@ HOSTS:
       - elasticsearch_server
       - el6
     platform:   el-6-x86_64
-    box:        puppetlabs/centos-6.6-64-nocm
-    box_url:    https://vagrantcloud.com/puppetlabs/boxes/centos-6.6-64-nocm
+    box:        centos/6
     hypervisor: vagrant
     yum_repos:
       simp:
@@ -36,6 +34,6 @@ HOSTS:
 
 CONFIG:
   log_level: verbose
-  type:      foss
+  type:      aio
   vagrant_memsize: 512
   # vb_gui: true
