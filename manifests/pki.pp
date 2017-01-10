@@ -38,7 +38,7 @@
 #
 class simp_elasticsearch::pki(
   Variant[Boolean,Enum['simp']] $pki                     = simplib::lookup('simp_options::pki' , { 'default_value' => false }),
-  Stdlib::Absolutepath          $app_pki_external_source = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/simp/pki' }),
+  Stdlib::Absolutepath          $app_pki_external_source = simplib::lookup('simp_options::pki::source', { 'default_value' => '/etc/pki/simp' }),
   Stdlib::AbsolutePath          $app_pki_dir             = '/etc/pki/simp_apps/simp_elasticsearch/pki',
   Stdlib::AbsolutePath          $app_pki_cert            = "${app_pki_dir}/public/${facts['fqdn']}.pub",
   Stdlib::AbsolutePath          $app_pki_key             = "${app_pki_dir}/private/${facts['fqdn']}.pem",
