@@ -1,5 +1,6 @@
 * Tue Jan 10 2017 Nick Markowski <nmarkowski@keywcorp.com>  4.1.1-0
 - Updated pki scheme
+- Application certs now managed in /etc/pki/simp_apps/simp_elasticsearch/x509
 
 * Fri Dec 30 2016 Jeanne Greulich <jeanne.greulich@onyxpoint.com> - 4.1.1-0
 - Cleaned up the manage_httpd logic

@@ -31,13 +31,17 @@ describe 'simp_elasticsearch' do
      context "with manage_httpd and firewall" do
        let(:params) do default_params.merge({
             :manage_httpd => 'conf',
-            :firewall     => true,
+            :firewall     => true
           })
         end
         let(:pre_condition) {'include simp_apache'}
+        let(:hieradata) { 'pki' }
 
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to create_class('simp_elasticsearch::pki')}
+        it { is_expected.to create_pki__copy('simp_elasticsearch')}
+        it { is_expected.to create_file('/etc/pki/simp_apps/simp_elasticsearch/x509')}
+        it { is_expected.to contain_class('pki')}
         it { is_expected.to create_class('iptables') }
         it { is_expected.to create_class('simp_elasticsearch::simp_apache') }
      end
