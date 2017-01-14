@@ -5,9 +5,9 @@ Provides: pupmod-elasticsearch >= 2.0.0-1
 Requires: pupmod-elasticsearch-elasticsearch < 1.0.0-0
 Requires: pupmod-elasticsearch-elasticsearch >= 0.11.0-0
 Requires: pupmod-puppetlabs-java < 2.0.0
-Requires: pupmod-puppetlabs-java >= 1.2.0
+Requires: pupmod-puppetlabs-java >= 1.6.0
 Requires: pupmod-puppetlabs-stdlib < 5.0.0-0
-Requires: pupmod-puppetlabs-stdlib >= 4.9.0-0
+Requires: pupmod-puppetlabs-stdlib >= 4.13.0-0
 Requires: pupmod-simp-iptables < 7.0.0-0
 Requires: pupmod-simp-iptables >= 6.0.0-0
 Requires: pupmod-simp-simp_apache < 7.0.0-0
