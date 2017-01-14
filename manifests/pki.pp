@@ -53,7 +53,7 @@ class simp_elasticsearch::pki(
       pki    => $pki,
       owner  => $owner,
       group  => $group,
-      notify => $::simp_elasticsearch::http_service_resource
+      notify => Service['httpd']
     }
   }
 }
