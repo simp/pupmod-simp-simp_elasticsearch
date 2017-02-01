@@ -62,11 +62,11 @@
 #         }
 #         'ldap'    => {
 #           'enable'      => true,
-#           'url'         => hiera('ldap::uri'),
+#           'url'         => lookup('simp_options::ldap::uri'),
 #           'security'    => 'STARTTLS',
-#           'binddn'      => hiera('ldap::bind_dn'),
-#           'bindpw'      => hiera('ldap::bind_pw'),
-#           'search'      => inline_template('ou=People,<%= scope.function_hiera(["ldap::base_dn"]) %>'),
+#           'binddn'      => lookup('simp_options::ldap::bind_dn'),
+#           'bindpw'      => lookup('simp_options::ldap::bind_pw'),
+#           'search'      => inline_template('ou=People,<%= scope.function_lookup(["simp_options::ldap::base_dn"]) %>'),
 #           # Whether or not your LDAP groups are POSIX groups.
 #           'posix_group' => true
 #         }

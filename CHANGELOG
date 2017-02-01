@@ -1,3 +1,7 @@
+* Wed Feb 01 2017 Nick Markowski <nmarkowski@keywcorp.com> - 4.1.1-0
+- Updated ldap *_dn defaults.
+- No more hiera lookups.
+
 * Tue Jan 10 2017 Nick Markowski <nmarkowski@keywcorp.com>  4.1.1-0
 - Updated pki scheme
 - Application certs now managed in /etc/pki/simp_apps/simp_elasticsearch/x509

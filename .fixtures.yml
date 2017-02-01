@@ -64,12 +64,13 @@ fixtures:
     simp_apache:
       repo: https://github.com/simp/pupmod-simp-apache
       ref: 6.0.0-pre1
+    simp_options: https://github.com/simp/pupmod-simp-simp_options
     simpcat:
       repo: https://github.com/simp/pupmod-simp-simpcat
       ref: 6.0.0-pre1
     simplib:
       repo: https://github.com/simp/pupmod-simp-simplib
-      ref: 3.1.0-pre2
+      ref: 3.1.0-pre3
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
       ref: 4.13.1
