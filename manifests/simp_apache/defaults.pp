@@ -7,7 +7,7 @@
 #
 class simp_elasticsearch::simp_apache::defaults {
 
-  $_base_dn = simplib::lookup('simp_options::ldap::base_dn', {'default_value' => simplib::ldap::domain_to_dn()})
+  $_base_dn = simplib::lookup('simp_options::ldap::base_dn', { 'default_value' => '' })
 
   if empty($_base_dn) {
     $_ldap_search = ''
@@ -28,8 +28,8 @@ class simp_elasticsearch::simp_apache::defaults {
         'enable'      => false,
         'url'         => simplib::lookup('simp_options::ldap::uri', { 'default_value' => '' }),
         'security'    => 'STARTTLS',
-        'binddn'      => simplib::lookup('simp_options::ldap::bind_dn', { 'default_value' => "cn=hostAuth,ou=Hosts,${_base_dn}"}),
-        'bindpw'      => simplib::lookup('simp_options::ldap::bind_pw', { 'default_value' => ''}),
+        'binddn'      => simplib::lookup('simp_options::ldap::bind_dn', { 'default_value' => '' }),
+        'bindpw'      => simplib::lookup('simp_options::ldap::bind_pw', { 'default_value' => '' }),
         'search'      => $_ldap_search,
         'posix_group' => true
       }
