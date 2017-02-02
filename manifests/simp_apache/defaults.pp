@@ -26,7 +26,7 @@ class simp_elasticsearch::simp_apache::defaults {
       # Use LDAP for access control
       'ldap'    => {
         'enable'      => false,
-        'url'         => simplib::lookup('simp_options::ldap::uri', { 'default_value' => "ldap://${simp_options::puppet::server}"}),
+        'url'         => simplib::lookup('simp_options::ldap::uri', { 'default_value' => '' }),
         'security'    => 'STARTTLS',
         'binddn'      => simplib::lookup('simp_options::ldap::bind_dn', { 'default_value' => "cn=hostAuth,ou=Hosts,${_base_dn}"}),
         'bindpw'      => simplib::lookup('simp_options::ldap::bind_pw', { 'default_value' => ''}),
