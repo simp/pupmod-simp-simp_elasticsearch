@@ -30,23 +30,25 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    CFPropertyList (2.2.8)
+    CFPropertyList (2.3.5)
     addressable (2.4.0)
-    aws-sdk-v1 (1.66.0)
+    aws-sdk-v1 (1.67.0)
       json (~> 1.4)
-      nokogiri (>= 1.4.4)
-    backports (3.6.8)
-    beaker-answers (0.13.0)
+      nokogiri (~> 1)
+    backports (3.8.0)
+    beaker-answers (0.17.0)
       hocon (~> 1.0)
       require_all (~> 1.3.2)
       stringify-hash (~> 0.0.0)
     beaker-hiera (0.1.1)
       stringify-hash (~> 0.0.0)
-    beaker-hostgenerator (0.8.2)
+    beaker-hostgenerator (0.8.4)
       deep_merge (~> 1.0)
       stringify-hash (~> 0.0.0)
-    beaker-pe (0.12.1)
+    beaker-pe (0.12.2)
       stringify-hash (~> 0.0.0)
+    beaker-puppet_install_helper (0.7.1)
+      beaker (>= 2.0)
     beaker-rspec (5.6.0)
       beaker (~> 2.0)
       rspec
@@ -58,23 +60,22 @@ GEM
     cri (2.6.1)
       colored (~> 1.2)
     deep_merge (1.1.1)
-    diff-lcs (1.2.5)
-    docker-api (1.33.1)
+    diff-lcs (1.3)
+    docker-api (1.33.4)
       excon (>= 0.38.0)
       json
-    domain_name (0.5.20161129)
+    domain_name (0.5.20170404)
       unf (>= 0.0.5, < 1.0.0)
     ethon (0.10.1)
       ffi (>= 1.3.0)
-    excon (0.54.0)
+    excon (0.55.0)
     facter (2.4.6)
-      CFPropertyList (~> 2.2.6)
     faraday (0.9.2)
       multipart-post (>= 1.2, < 3)
     faraday_middleware (0.10.1)
       faraday (>= 0.7.4, < 1.0)
     fast_gettext (1.1.0)
-    ffi (1.9.17)
+    ffi (1.9.18)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
     fog (1.34.0)
@@ -104,7 +105,7 @@ GEM
     fog-atmos (0.1.0)
       fog-core
       fog-xml
-    fog-aws (1.1.0)
+    fog-aws (1.3.0)
       fog-core (~> 1.38)
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
@@ -169,18 +170,18 @@ GEM
     fog-voxel (0.1.0)
       fog-core
       fog-xml
-    fog-xml (0.1.2)
+    fog-xml (0.1.3)
       fog-core
-      nokogiri (~> 1.5, >= 1.5.11)
+      nokogiri (>= 1.5.11, < 2.0.0)
     formatador (0.2.5)
     gettext (3.2.2)
       locale (>= 2.0.5)
       text (>= 1.3.0)
-    gettext-setup (0.11)
+    gettext-setup (0.24)
       fast_gettext (~> 1.1.0)
       gettext (>= 3.0.2)
       locale
-    gh (0.15.0)
+    gh (0.15.1)
       addressable (~> 2.4.0)
       backports
       faraday (~> 0.8)
@@ -205,7 +206,7 @@ GEM
       multi_json (~> 1.11)
       os (~> 0.9)
       signet (~> 0.7)
-    guard (2.14.0)
+    guard (2.14.1)
       formatador (>= 0.2.4)
       listen (>= 2.7, < 4.0)
       lumberjack (~> 1.0)
@@ -217,15 +218,15 @@ GEM
     guard-rake (1.0.0)
       guard
       rake
-    hiera (3.2.2)
+    hiera (3.3.1)
     hiera-puppet-helper (1.0.1)
     highline (1.7.8)
-    hocon (1.2.4)
+    hocon (1.2.5)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
     httpclient (2.8.3)
     hurley (0.2)
-    in-parallel (0.1.15)
+    in-parallel (0.1.17)
     inflecto (0.0.2)
     inifile (2.0.2)
     ipaddress (0.8.3)
@@ -240,13 +241,13 @@ GEM
     little-plugger (1.1.4)
     locale (2.1.2)
     log4r (1.1.10)
-    logging (2.1.0)
+    logging (2.2.2)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
     lumberjack (1.0.11)
     memoist (0.15.0)
     metaclass (0.0.4)
-    metadata-json-lint (1.0.0)
+    metadata-json-lint (1.1.0)
       json
       semantic_puppet (>= 0.1.2, < 2.0.0)
       spdx-licenses (~> 1.0)
@@ -267,7 +268,7 @@ GEM
     net-ssh (2.9.4)
     net-telnet (0.1.1)
     netrc (0.11.0)
-    nokogiri (1.7.0.1)
+    nokogiri (1.7.1)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -275,8 +276,8 @@ GEM
     open_uri_redirections (0.2.1)
     os (0.9.6)
     pager (1.0.1)
-    parallel (1.10.0)
-    parallel_tests (2.13.0)
+    parallel (1.11.1)
+    parallel_tests (2.14.1)
       parallel
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -285,50 +286,48 @@ GEM
     pry-doc (0.10.0)
       pry (~> 0.9)
       yard (~> 0.9)
-    puppet (4.8.1)
-      CFPropertyList (~> 2.2.6)
+    puppet (4.8.2)
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
       json_pure (~> 1.8)
     puppet-blacksmith (3.4.0)
       puppet (>= 2.7.16)
       rest-client (~> 1.8.0)
-    puppet-lint (2.1.0)
+    puppet-lint (2.2.1)
     puppet-lint-empty_string-check (0.2.2)
       puppet-lint (>= 1.0, < 3.0)
     puppet-lint-trailing_comma-check (0.3.2)
       puppet-lint (>= 1.0, < 3.0)
-    puppet-strings (1.0.0)
+    puppet-strings (1.1.0)
       yard (~> 0.9.5)
-    puppet-syntax (2.2.0)
+    puppet-syntax (2.4.0)
       rake
-    puppet_forge (2.2.2)
+    puppet_forge (2.2.4)
       faraday (~> 0.9.0)
       faraday_middleware (>= 0.9.0, < 0.11.0)
-      gettext-setup (>= 0.3)
+      gettext-setup (~> 0.11)
       minitar
       semantic_puppet (~> 0.1.0)
-    puppetlabs_spec_helper (0.10.3)
-      mocha
-      puppet-lint
-      puppet-syntax
-      rake
-      rspec-puppet
+    puppetlabs_spec_helper (1.2.2)
+      mocha (~> 1.0)
+      puppet-lint (~> 2.0)
+      puppet-syntax (~> 2.0)
+      rspec-puppet (~> 2.0)
     pusher-client (0.6.2)
       json
       websocket (~> 1.0)
-    r10k (2.5.1)
+    r10k (2.5.4)
       colored (= 1.2)
       cri (~> 2.6.1)
       gettext-setup (~> 0.5)
       log4r (= 1.1.10)
-      minitar
+      minitar (= 0.5.4)
       multi_json (~> 1.10)
       puppet_forge (~> 2.2)
       semantic_puppet (~> 0.1.0)
-    rake (11.3.0)
+    rake (12.0.0)
     rb-fsevent (0.9.8)
-    rb-inotify (0.9.7)
+    rb-inotify (0.9.8)
       ffi (>= 0.5.0)
     rbvmomi (1.8.2)
       builder
@@ -366,7 +365,7 @@ GEM
     rsync (1.0.9)
     semantic_puppet (0.1.4)
       gettext-setup (>= 0.3)
-    serverspec (2.37.2)
+    serverspec (2.38.0)
       multi_json
       rspec (~> 3.0)
       rspec-its
@@ -378,9 +377,10 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
-    simp-beaker-helpers (1.5.7)
+    simp-beaker-helpers (1.6.0)
       beaker (~> 2)
-    simp-rake-helpers (3.1.3)
+      beaker-puppet_install_helper (~> 0.6)
+    simp-rake-helpers (3.4.0)
       beaker (~> 2.51)
       beaker-rspec (~> 5.0)
       bundler (~> 1.0)
@@ -392,9 +392,9 @@ GEM
       puppet (>= 3.0)
       puppet-blacksmith (~> 3.3)
       puppet-lint (>= 1.0, < 3.0)
-      puppetlabs_spec_helper (~> 0.0)
+      puppetlabs_spec_helper (~> 1.0)
       r10k (~> 2.2)
-      rake (>= 10.0, < 12.0)
+      rake (>= 10.0, < 13.0)
       rspec (~> 3.0)
       rspec-core (~> 3.0)
       simp-beaker-helpers (~> 1.0)
@@ -405,15 +405,15 @@ GEM
       rspec-puppet-facts (~> 0)
     slop (3.6.0)
     spdx-licenses (1.1.0)
-    specinfra (2.66.3)
+    specinfra (2.67.9)
       net-scp
-      net-ssh (>= 2.7, < 4.0)
+      net-ssh (>= 2.7, < 5.0)
       net-telnet
       sfl
     stringify-hash (0.0.2)
     text (1.3.1)
     thor (0.19.4)
-    travis (1.8.5)
+    travis (1.8.8)
       backports
       faraday (~> 0.9)
       faraday_middleware (~> 0.9, >= 0.9.1)
@@ -424,16 +424,16 @@ GEM
       typhoeus (~> 0.6, >= 0.6.8)
     travis-lint (2.0.0)
       json
-    travish (0.1.1)
+    travish (1.0.0)
     trollop (2.1.2)
     typhoeus (0.8.0)
       ethon (>= 0.8.0)
     uber (0.0.15)
     unf (0.1.4)
       unf_ext
-    unf_ext (0.0.7.2)
-    websocket (1.2.3)
-    yard (0.9.8)
+    unf_ext (0.0.7.4)
+    websocket (1.2.4)
+    yard (0.9.9)
 
 PLATFORMS
   ruby
@@ -447,7 +447,7 @@ DEPENDENCIES
   metadata-json-lint
   pry
   pry-doc
-  puppet (~> 4)
+  puppet (= 4.8.2)
   puppet-blacksmith
   puppet-lint-empty_string-check
   puppet-lint-trailing_comma-check
@@ -464,4 +464,4 @@ DEPENDENCIES
   travish
 
 BUNDLED WITH
-   1.13.3
+   1.14.6

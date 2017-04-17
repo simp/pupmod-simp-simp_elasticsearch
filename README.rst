@@ -95,6 +95,13 @@ In Hiera, you can define this as follows:
 
   simp_elasticsearch::cluster_name : 'my_cluster'
 
+In addition, for EL6 systems, ensure the correct version of JAVA is
+installed as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
+
 Setting up a Multi-Node Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -131,6 +138,12 @@ can use in the place of `::ipaddress` below.
     - first.cluster.host:9300
     - second.cluster.host:9300
     - third.cluster.host:9300
+
+Be sure to specify the correct version of JAVA for EL6 systems as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
 
 Enabling Remote Connections
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -17,7 +17,7 @@ Listen <%= @listen %>
   SSLVerifyDepth <%= @ssl_verify_depth %>
 
   <Proxy balancer://main>
-    BalancerMember http://127.0.0.1:9199 max=1 retry=5
+    BalancerMember http://127.0.0.1:<%= @proxy_port %> max=1 retry=5
 
     <IfVersion < 2.4>
     include '<%= @es_httpd_includes %>/auth/*.conf'

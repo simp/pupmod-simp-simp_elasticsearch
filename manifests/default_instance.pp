@@ -7,5 +7,7 @@
 # @copyright 2016 Onyx Point, Inc.
 #
 class simp_elasticsearch::default_instance {
-  elasticsearch::instance{ 'simp': }
+  include '::simp_elasticsearch'
+  assert_private()
+  elasticsearch::instance{ $::simp_elasticsearch::default_instance_name: }
 }

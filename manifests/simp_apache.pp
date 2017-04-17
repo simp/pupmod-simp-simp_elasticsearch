@@ -102,7 +102,7 @@
 class simp_elasticsearch::simp_apache (
   Variant[Boolean,Enum['conf']]  $manage_httpd,
   Simplib::Port                  $listen            = 9200,
-  Simplib::Port                  $proxyport         = 9199,
+  Simplib::Port                  $proxy_port        = 9199,
   Array[String]                  $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
   Array[String]                  $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
   String                         $apache_user       = 'root',
