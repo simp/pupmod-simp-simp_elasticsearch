@@ -3,8 +3,6 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
-#
 class simp_elasticsearch::simp_apache::defaults {
 
   $_base_dn = simplib::lookup('simp_options::ldap::base_dn', { 'default_value' => '' })

@@ -35,7 +35,7 @@ include '::simp_elasticsearch'
 simp_elasticsearch::cluster_name : 'test_cluster'
 simp_elasticsearch::bind_host : '#IPADDRESS#'
 simp_elasticsearch::unicast_hosts :
-  - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
+  - #{hosts.map{|x| '"' + x.to_s + '.%{::domain}' + ':9300"'}.join("\n  - ")}
 
 simp_elasticsearch::http_method_acl :
   limits :

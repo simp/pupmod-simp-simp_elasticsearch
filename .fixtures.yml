@@ -3,8 +3,7 @@ fixtures:
   repositories:
     auditd:
       repo: https://github.com/simp/pupmod-simp-auditd
-#      ref: 7.0.1
-      branch: master
+      ref: 7.0.1
     augeasproviders_core:
       repo: https://github.com/simp/augeasproviders_core
       ref: simp6.0.0-2.1.3
@@ -22,8 +21,7 @@ fixtures:
       ref: simp6.0.0-2.1.0
     compliance_mapper:
       repo: https://github.com/simp/pupmod-simp-compliance_markup
-#      ref: 2.0.1
-      branch: master
+      ref: 2.0.1
     concat:
       repo: https://github.com/simp/puppetlabs-concat
       ref: simp6.0.0-2.2.0
@@ -43,54 +41,48 @@ fixtures:
       ref: 0.4.0
     iptables:
       repo: https://github.com/simp/pupmod-simp-iptables
-#      ref: 6.0.0-pre2
-      branch: master
+      ref: 6.0.1
     java:
       repo: https://github.com/simp/puppetlabs-java
       ref: simp-1.6.0-post1
     logrotate:
       repo: https://github.com/simp/pupmod-simp-logrotate
-#      ref: 6.0.0-pre1
-      branch: master
+      ref: 6.0.0
     oddjob:
       repo: https://github.com/simp/pupmod-simp-oddjob
-#      ref: 2.0.0-pre1
-      branch: master
+      ref: 2.0.0
     pam:
       repo: https://github.com/simp/pupmod-simp-pam
-#      ref: 6.0.0-pre1
-      branch: master
+      ref: 6.0.2
     pki:
       repo: https://github.com/simp/pupmod-simp-pki
-#      ref: 6.0.0-pre2
-      branch: master
+      ref: 6.0.0
     rsync:
       repo: https://github.com/simp/pupmod-simp-rsync
-#      ref: 6.0.0-pre1
-      branch: master
+      ref: 6.0.2
     rsyslog:
       repo: https://github.com/simp/pupmod-simp-rsyslog
-#      ref: 7.0.0-pre1
-      branch: master
+      ref: 7.0.2
     simp_apache:
       repo: https://github.com/simp/pupmod-simp-apache
-#      ref: 6.0.0-pre1
-      branch: master
-    simp_options: https://github.com/simp/pupmod-simp-simp_options
+      ref: 6.0.0
+    simp_options:
+      repo: https://github.com/simp/pupmod-simp-simp_options
+      ref: 1.0.2
     simpcat:
       repo: https://github.com/simp/pupmod-simp-simpcat
-#      ref: 6.0.0-pre1
-      branch: master
+      ref: 6.0.0
     simplib:
       repo: https://github.com/simp/pupmod-simp-simplib
-#      ref: 3.1.0-pre3
-      branch: master
+      ref: 3.2.0
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
       ref: simp6.0.0-4.13.1
     tcpwrappers:
       repo: https://github.com/simp/pupmod-simp-tcpwrappers
-#      ref: 6.0.0-pre1
-      branch: master
+      ref: 6.0.0
+    yum:
+      repo: https://github.com/voxpupuli/puppet-yum
+      ref: v1.0.0
   symlinks:
     simp_elasticsearch: "#{source_dir}"

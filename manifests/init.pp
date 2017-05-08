@@ -148,7 +148,7 @@
 # }
 #
 # @example ES instance on EL6
-# 
+#
 # In addition to the class definitions listed in the EL7 examples,
 # the following hieradata setting is required to ensure the
 # correct version of JAVA is installed:
@@ -157,7 +157,6 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
 class simp_elasticsearch (
   String                          $cluster_name,
   Simplib::Host                   $node_name              = $facts['fqdn'],
@@ -177,15 +176,12 @@ class simp_elasticsearch (
   Integer                         $rolling_file_max_backup_index = 1,
   String                          $rolling_file_max_file_size    = '10MB',
   Data                            $es_config              = {},
-  String                          $max_locked_memory      = '',
-  String                          $max_open_files         = '',
   Variant[Boolean,Enum['conf']]   $manage_httpd           = true,
   Boolean                         $restart_on_change      = true,
   Optional[Boolean]               $restart_config_change  = undef,
   Optional[Boolean]               $restart_package_change = undef,
   Optional[Boolean]               $restart_plugin_change  = undef,
   Boolean                         $firewall               = simplib::lookup('simp_options::firewall', { 'default_value' => false}),
-  Boolean                         $install_unix_utils     = true,
   Boolean                         $spawn_default_instance = true,
 ) {
   include '::simp_elasticsearch::defaults'
