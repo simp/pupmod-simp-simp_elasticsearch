@@ -1,32 +1,3 @@
-GIT
-  remote: https://github.com/trevor-vaughan/beaker.git
-  revision: 4e10bde3e1bd2da3f6aa8a47cbbb5a42c99194f7
-  branch: BKR-931-2.51.0
-  specs:
-    beaker (2.51.0)
-      aws-sdk-v1 (~> 1.57)
-      beaker-answers (~> 0.0)
-      beaker-hiera (~> 0.0)
-      beaker-hostgenerator
-      beaker-pe (~> 0.0)
-      docker-api
-      fission (~> 0.4)
-      fog (~> 1.25, < 1.35.0)
-      fog-google (~> 0.0.9)
-      google-api-client (~> 0.8, < 0.9.5)
-      hocon (~> 1.0)
-      in-parallel (~> 0.1)
-      inifile (~> 2.0)
-      json (~> 1.8)
-      minitest (~> 5.4)
-      net-scp (~> 1.2)
-      net-ssh (~> 2.9)
-      open_uri_redirections (~> 0.2.1)
-      rbvmomi (~> 1.8, < 1.9.0)
-      rsync (~> 1.0.9)
-      stringify-hash (~> 0.0)
-      unf (~> 0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,22 +7,37 @@ GEM
       json (~> 1.4)
       nokogiri (~> 1)
     backports (3.8.0)
-    beaker-answers (0.17.0)
+    beaker (3.15.0)
+      aws-sdk-v1 (~> 1.57)
+      beaker-hiera (~> 0.0)
+      beaker-hostgenerator
+      docker-api
+      fission (~> 0.4)
+      fog (~> 1.38)
+      google-api-client (~> 0.9)
       hocon (~> 1.0)
-      require_all (~> 1.3.2)
-      stringify-hash (~> 0.0.0)
+      in-parallel (~> 0.1)
+      inifile (~> 3.0)
+      minitar (~> 0.5.4)
+      minitest (~> 5.4)
+      net-scp (~> 1.2)
+      net-ssh (~> 4.0)
+      open_uri_redirections (~> 0.2.1)
+      rbvmomi (~> 1.9)
+      rsync (~> 1.0.9)
+      stringify-hash (~> 0.0)
+      thor (~> 0.19)
+      unf (~> 0.1)
     beaker-hiera (0.1.1)
       stringify-hash (~> 0.0.0)
     beaker-hostgenerator (0.8.4)
       deep_merge (~> 1.0)
       stringify-hash (~> 0.0.0)
-    beaker-pe (0.12.2)
-      stringify-hash (~> 0.0.0)
     beaker-puppet_install_helper (0.7.1)
       beaker (>= 2.0)
-    beaker-rspec (5.6.0)
-      beaker (~> 2.0)
-      rspec
+    beaker-rspec (6.1.0)
+      beaker (~> 3.0)
+      rspec (~> 3.0)
       serverspec (~> 2)
       specinfra (~> 2)
     builder (3.2.3)
@@ -59,6 +45,8 @@ GEM
     colored (1.2)
     cri (2.6.1)
       colored (~> 1.2)
+    declarative (0.0.9)
+    declarative-option (0.1.0)
     deep_merge (1.1.1)
     diff-lcs (1.3)
     docker-api (1.33.4)
@@ -78,18 +66,24 @@ GEM
     ffi (1.9.18)
     fission (0.5.0)
       CFPropertyList (~> 2.2)
-    fog (1.34.0)
+    fog (1.40.0)
+      fog-aliyun (>= 0.1.0)
       fog-atmos
       fog-aws (>= 0.6.0)
       fog-brightbox (~> 0.4)
-      fog-core (~> 1.32)
+      fog-cloudatcost (~> 0.1.0)
+      fog-core (~> 1.43)
+      fog-digitalocean (>= 0.3.0)
+      fog-dnsimple (~> 1.0)
       fog-dynect (~> 0.0.2)
       fog-ecloud (~> 0.1)
-      fog-google (>= 0.0.2)
+      fog-google (<= 0.1.0)
       fog-json
       fog-local
+      fog-openstack
       fog-powerdns (>= 0.1.1)
       fog-profitbricks
+      fog-rackspace
       fog-radosgw (>= 0.0.2)
       fog-riakcs
       fog-sakuracloud (>= 0.0.4)
@@ -99,9 +93,16 @@ GEM
       fog-terremark
       fog-vmfusion
       fog-voxel
+      fog-vsphere (>= 0.4.0)
+      fog-xenserver
       fog-xml (~> 0.1.1)
       ipaddress (~> 0.5)
-      nokogiri (~> 1.5, >= 1.5.11)
+      json (>= 1.8, < 2.0)
+    fog-aliyun (0.1.0)
+      fog-core (~> 1.27)
+      fog-json (~> 1.0)
+      ipaddress (~> 0.8)
+      xml-simple (~> 1.1)
     fog-atmos (0.1.0)
       fog-core
       fog-xml
@@ -114,10 +115,23 @@ GEM
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.43.0)
+    fog-cloudatcost (0.1.2)
+      fog-core (~> 1.36)
+      fog-json (~> 1.0)
+      fog-xml (~> 0.1)
+      ipaddress (~> 0.8)
+    fog-core (1.44.1)
       builder
       excon (~> 0.49)
       formatador (~> 0.2)
+    fog-digitalocean (0.3.0)
+      fog-core (~> 1.42)
+      fog-json (>= 1.0)
+      fog-xml (>= 0.1)
+      ipaddress (>= 0.5)
+    fog-dnsimple (1.0.0)
+      fog-core (~> 1.38)
+      fog-json (~> 1.0)
     fog-dynect (0.0.3)
       fog-core
       fog-json
@@ -125,7 +139,7 @@ GEM
     fog-ecloud (0.3.0)
       fog-core
       fog-xml
-    fog-google (0.0.9)
+    fog-google (0.1.0)
       fog-core
       fog-json
       fog-xml
@@ -134,6 +148,10 @@ GEM
       multi_json (~> 1.10)
     fog-local (0.3.1)
       fog-core (~> 1.27)
+    fog-openstack (0.1.20)
+      fog-core (>= 1.40)
+      fog-json (>= 1.0)
+      ipaddress (>= 0.8)
     fog-powerdns (0.1.1)
       fog-core (~> 1.27)
       fog-json (~> 1.0)
@@ -141,6 +159,11 @@ GEM
     fog-profitbricks (3.0.0)
       fog-core (~> 1.42)
       fog-json (~> 1.0)
+    fog-rackspace (0.1.5)
+      fog-core (>= 1.35)
+      fog-json (>= 1.0)
+      fog-xml (>= 0.1)
+      ipaddress (>= 0.8)
     fog-radosgw (0.0.5)
       fog-core (>= 1.21.0)
       fog-json
@@ -170,6 +193,12 @@ GEM
     fog-voxel (0.1.0)
       fog-core
       fog-xml
+    fog-vsphere (1.9.1)
+      fog-core
+      rbvmomi (~> 1.9)
+    fog-xenserver (0.3.0)
+      fog-core
+      fog-xml
     fog-xml (0.1.3)
       fog-core
       nokogiri (>= 1.5.11, < 2.0.0)
@@ -188,16 +217,15 @@ GEM
       multi_json (~> 1.0)
       net-http-persistent (~> 2.9)
       net-http-pipeline
-    google-api-client (0.9.4)
+    google-api-client (0.10.3)
       addressable (~> 2.3)
       googleauth (~> 0.5)
       httpclient (~> 2.7)
       hurley (~> 0.1)
       memoist (~> 0.11)
       mime-types (>= 1.6)
-      representable (~> 2.3.0)
-      retriable (~> 2.0)
-      thor (~> 0.19)
+      representable (~> 3.0)
+      retriable (>= 2.0, < 4.0)
     googleauth (0.5.1)
       faraday (~> 0.9)
       jwt (~> 1.4)
@@ -228,7 +256,7 @@ GEM
     hurley (0.2)
     in-parallel (0.1.17)
     inflecto (0.0.2)
-    inifile (2.0.2)
+    inifile (3.0.0)
     ipaddress (0.8.3)
     json (1.8.6)
     json_pure (1.8.6)
@@ -265,7 +293,7 @@ GEM
     net-http-pipeline (1.0.1)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (2.9.4)
+    net-ssh (4.1.0)
     net-telnet (0.1.1)
     netrc (0.11.0)
     nokogiri (1.7.1)
@@ -276,7 +304,7 @@ GEM
     open_uri_redirections (0.2.1)
     os (0.9.6)
     pager (1.0.1)
-    parallel (1.11.1)
+    parallel (1.11.2)
     parallel_tests (2.14.1)
       parallel
     pry (0.10.4)
@@ -329,39 +357,41 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
-    rbvmomi (1.8.2)
-      builder
-      nokogiri (>= 1.4.1)
-      trollop
-    representable (2.3.0)
-      uber (~> 0.0.7)
-    require_all (1.3.3)
+    rbvmomi (1.11.2)
+      builder (~> 3.0)
+      json (>= 1.8)
+      nokogiri (~> 1.5)
+      trollop (~> 2.1)
+    representable (3.0.4)
+      declarative (< 0.1.0)
+      declarative-option (< 0.2.0)
+      uber (< 0.2.0)
     rest-client (1.8.0)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 3.0)
       netrc (~> 0.7)
-    retriable (2.1.0)
-    rspec (3.5.0)
-      rspec-core (~> 3.5.0)
-      rspec-expectations (~> 3.5.0)
-      rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.4)
-      rspec-support (~> 3.5.0)
-    rspec-expectations (3.5.0)
+    retriable (3.0.2)
+    rspec (3.6.0)
+      rspec-core (~> 3.6.0)
+      rspec-expectations (~> 3.6.0)
+      rspec-mocks (~> 3.6.0)
+    rspec-core (3.6.0)
+      rspec-support (~> 3.6.0)
+    rspec-expectations (3.6.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
+      rspec-support (~> 3.6.0)
     rspec-its (1.2.0)
       rspec-core (>= 3.0.0)
       rspec-expectations (>= 3.0.0)
-    rspec-mocks (3.5.0)
+    rspec-mocks (3.6.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.5.0)
+      rspec-support (~> 3.6.0)
     rspec-puppet (2.5.0)
       rspec
     rspec-puppet-facts (0.12.0)
       facter
       json
-    rspec-support (3.5.0)
+    rspec-support (3.6.0)
     rsync (1.0.9)
     semantic_puppet (0.1.4)
       gettext-setup (>= 0.3)
@@ -377,12 +407,12 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
-    simp-beaker-helpers (1.6.0)
-      beaker (~> 2)
+    simp-beaker-helpers (1.8.1)
+      beaker (~> 3.14)
       beaker-puppet_install_helper (~> 0.6)
-    simp-rake-helpers (3.4.0)
-      beaker (~> 2.51)
-      beaker-rspec (~> 5.0)
+    simp-rake-helpers (3.5.0)
+      beaker (~> 3.14)
+      beaker-rspec (~> 6.1)
       bundler (~> 1.0)
       coderay (~> 1.0)
       listen (~> 3.0.6)
@@ -428,18 +458,19 @@ GEM
     trollop (2.1.2)
     typhoeus (0.8.0)
       ethon (>= 0.8.0)
-    uber (0.0.15)
+    uber (0.1.0)
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
     websocket (1.2.4)
+    xml-simple (1.1.5)
     yard (0.9.9)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  beaker!
+  beaker
   beaker-rspec
   guard-rake
   hiera-puppet-helper
@@ -447,7 +478,7 @@ DEPENDENCIES
   metadata-json-lint
   pry
   pry-doc
-  puppet (= 4.8.2)
+  puppet (~> 4.8.0)
   puppet-blacksmith
   puppet-lint-empty_string-check
   puppet-lint-trailing_comma-check
@@ -456,8 +487,8 @@ DEPENDENCIES
   rake
   rspec
   rspec-puppet
-  simp-beaker-helpers (~> 1.5)
-  simp-rake-helpers (~> 3.0)
+  simp-beaker-helpers (~> 1.7)
+  simp-rake-helpers (~> 3.5)
   simp-rspec-puppet-facts (~> 1.3)
   travis
   travis-lint
