@@ -29,9 +29,7 @@ fixtures:
       repo: https://github.com/simp/puppet-datacat
       ref: simp6.0.0-0.6.2
     elasticsearch:
-# use elastic repo until simp repo is updated
-#      repo: https://github.com/simp/puppet-elasticsearch
-      repo: https://github.com/elastic/puppet-elasticsearch
+      repo: https://github.com/simp/puppet-elasticsearch
       ref: 5.2.0
     file_concat:
       repo: https://github.com/simp/puppet-lib-file_concat

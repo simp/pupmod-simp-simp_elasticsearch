@@ -283,7 +283,7 @@ GEM
     mime-types (2.99.3)
     mini_portile2 (2.1.0)
     minitar (0.5.4)
-    minitest (5.10.1)
+    minitest (5.10.2)
     mocha (1.2.1)
       metaclass (~> 0.0.1)
     multi_json (1.12.1)
@@ -296,7 +296,7 @@ GEM
     net-ssh (4.1.0)
     net-telnet (0.1.1)
     netrc (0.11.0)
-    nokogiri (1.7.1)
+    nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
     notiffany (0.1.1)
       nenv (~> 0.1)
@@ -395,7 +395,7 @@ GEM
     rsync (1.0.9)
     semantic_puppet (0.1.4)
       gettext-setup (>= 0.3)
-    serverspec (2.38.0)
+    serverspec (2.38.1)
       multi_json
       rspec (~> 3.0)
       rspec-its
@@ -407,7 +407,7 @@ GEM
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
-    simp-beaker-helpers (1.8.1)
+    simp-beaker-helpers (1.7.1)
       beaker (~> 3.14)
       beaker-puppet_install_helper (~> 0.6)
     simp-rake-helpers (3.5.0)
@@ -478,7 +478,7 @@ DEPENDENCIES
   metadata-json-lint
   pry
   pry-doc
-  puppet (~> 4.8.0)
+  puppet (= 4.8.2)
   puppet-blacksmith
   puppet-lint-empty_string-check
   puppet-lint-trailing_comma-check
