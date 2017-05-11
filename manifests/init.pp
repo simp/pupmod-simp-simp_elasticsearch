@@ -68,6 +68,11 @@
 # @param init_defaults Options that will be passed directly into
 #   the sysconfig file for the elasticsearch service.
 #
+# @param jna_tmpdir  JNA tmpdir to be used in lieu of /tmp.  Cannot be on a
+#   noexec filesystem.  Directory will be created and configured, but
+#   you must ensure the parent directory exists and is accessible to
+#   the ES user.
+#
 # @param jvm_options JVM options to be persisted to /etc/elasticsearch/jvm.options.
 #   Anything passed in via this array will be appended to the default options.
 #
@@ -169,6 +174,7 @@ class simp_elasticsearch (
   Integer[0]                      $min_master_nodes       = 2,
   Array[Simplib::Host::Port]      $unicast_hosts          = ["${facts['fqdn']}:9300"],
   Hash[Pattern['^[A-Z,_]+$'],Any] $init_defaults          = {},
+  Stdlib::AbsolutePath            $jna_tmpdir             = '/var/lib/elasticsearch/tmp',
   Array[Pattern['^-']]            $jvm_options            = [],
   Enum['dailyRollingFile',
     'rollingFile']                $file_rolling_type             = 'dailyRollingFile',
@@ -235,29 +241,10 @@ class simp_elasticsearch (
 
   Class['java'] -> Class['elasticsearch']
 
-  # Correct the permissions on the ES templates directory
-  # TODO Verify this workaround is still required.
-  file { '/etc/elasticsearch/templates_import':
-    ensure => directory,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
-  }
+  # Tweak elasticsearch installation for SIMP
+  include '::simp_elasticsearch::config'
 
-  file { $_config['path.data']:
-    ensure  => 'directory',
-    owner   => 'elasticsearch',
-    group   => 'elasticsearch',
-    require => Package['elasticsearch']
-  }
-
-  # This is here due to some weird bug in ES that won't read /etc properly.
-  # TODO Verify this workaround is still required.
-  file { '/usr/share/elasticsearch/config':
-    ensure => 'symlink',
-    target => '/etc/elasticsearch',
-    force  => true
-  }
+  Class['elasticsearch'] -> Class['simp_elasticsearch::config']
 
   if $firewall {
     include '::iptables'
@@ -296,19 +283,11 @@ class simp_elasticsearch (
     }
   }
 
-  pam::limits::rule { 'es_heap_sizelock':
-    domains => ['elasticsearch'],
-    type    => '-',
-    item    => 'memlock',
-    value   => 'unlimited',
-    order   => 0,
-  }
-
   # Make sure elasticsearch user can spawn up to 2048 threads
   if (versioncmp($facts['os']['release']['major'],'7') < 0) {
     # see man page for limits.conf
     pam::limits::rule { 'es_nproc':
-      domains => ['elasticsearch'],
+      domains => [ $::elasticsearch::elasticsearch_user ],
       item    => 'nproc',
       value   => 2048,
     }
@@ -329,6 +308,7 @@ class simp_elasticsearch (
       group   => 'root',
       mode    => '0644',
       content => file("${module_name}/opts.conf"),
+      require => File[$_systemd_opts_dir]
     }
   }
 }

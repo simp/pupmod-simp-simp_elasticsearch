@@ -3,6 +3,7 @@ require 'spec_helper'
 shared_examples_for 'a simp_elasticsearch profile' do |os_release_major, service_name|
   it { is_expected.to compile.with_all_deps }
   it { is_expected.to create_class('simp_elasticsearch') }
+  it { is_expected.to create_class('simp_elasticsearch::config') }
   it { is_expected.to create_class('pam::limits') }
   it { is_expected.to create_class('java') }
   it { is_expected.to create_class('elasticsearch') }
@@ -10,6 +11,9 @@ shared_examples_for 'a simp_elasticsearch profile' do |os_release_major, service
   it { is_expected.to create_file('/var/elasticsearch/data') }
   it { is_expected.to create_file('/usr/share/elasticsearch/config') }
   it { is_expected.to create_pam__limits__rule('es_heap_sizelock') }
+  it { is_expected.to create_user('elasticsearch').with_home('/var/local/elasticsearch') }
+  it { is_expected.to create_file('/var/local/elasticsearch') }
+  it { is_expected.to create_file('/var/lib/elasticsearch/tmp') }
   if os_release_major == '6'
     it { is_expected.to contain_pam__limits__rule('es_nproc') }
   else

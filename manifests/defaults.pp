@@ -1,5 +1,5 @@
-# This class is just for storing default option hashes so the main
-# classes are cleaner.
+# This class is just for storing default option hashes/arrays so the
+# main classes are cleaner.
 #
 # Items are called from simp_elasticsearch
 #
@@ -24,7 +24,13 @@ class simp_elasticsearch::defaults {
     $es_heap_size = (( $mem_bytes / 2 ) + 2147483648 )
   }
 
-  $jvm_options_defaults = [ "-Xms${es_heap_size}", "-Xmx${es_heap_size}"  ]
+  # JNA tmp dir must be set, as default is /tmp which won't
+  # work with noexec constraints
+  $jvm_options_defaults = [
+   "-Xms${es_heap_size}",
+   "-Xmx${es_heap_size}",
+   "-Djna.tmpdir=${::simp_elasticsearch::jna_tmpdir}"
+  ]
 
   $_base_config = {
     'cluster'     => {
@@ -36,7 +42,7 @@ class simp_elasticsearch::defaults {
       # This must be done due to a bug in the ES configuration processor that
       # does not match the documentation which states that publish_host will be
       # automatically selected from the best address in bind_host.
-      # TODO Verify this workaround is still required with ES 5.3
+      # TODO Verify this workaround is still required with ES 5.X
       'publish_host' => $::simp_elasticsearch::bind_host
     },
     'http'        => {
