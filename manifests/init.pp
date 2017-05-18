@@ -13,8 +13,8 @@
 # We are planning to move to add IPSec support in the future so that the
 # transport layer can be optionally protected internally.
 #
-# Currently, an IPTables rule is created for each host that you add to your
-# unicast hosts list. We will be moving to use ipset in the future for
+# Currently, an IPTables rules are created for both ES API and cluster
+# communications.  We will be moving to use ipset in the future for
 # optimization.
 #
 # @param cluster_name *Required* The name of the cluster that this
@@ -28,21 +28,26 @@
 #   @note When set to 127.0.0.1 no cluster communication with external
 #     nodes is possible.
 #
-# @param http_bind_host The IP address to which to bind the http
-#   service.
+# @param http_bind_host The IP address to which to bind the ES http
+#   service used for ES API communications.
 #
-#   @note For the most secure http configuration, set this to
-#     127.0.0.1, http_port to any value but 9200, and http_method_acl
-#     appropriately.  This will proxy http interactions into the
-#     ES engine with the authentication and/or command restrictions
-#     specified in http_method_acl.
+#   @note For the most secure http configuration, leave this set to
+#     127.0.0.1, set http_listen_port to a value different from 
+#     http_port, and set http_method_acl with appropriate 
+#     authentication and/or command restrictions.  This will proxy
+#     http interactions received on the http_listen_port into the
+#     ES engine on http_port, after applying the authentication
+#     and/or command restrictions specified in http_method_acl.
 #
-# @param http_port This port will be exposed for http interactions into
-#   the ES engine.
+# @param http_listen_port The port to which secure, external ES
+#   API requests should be made. The Apache service will
+#   authenticate requests on this port and then proxy them to 
+#   http_port on http_bind_host.
 #
-#   @note This will *not* be exposed directly through iptables unless set to
-#     9200. 9200 is the ES default so setting this to *anything else* means
-#     that you want to proxy and to not expose this port to the world.
+# @param http_port The port used for http API requests into the ES engine.
+#
+#   @note This will *not* be exposed directly through iptables unless
+#     set to http_listen_port.
 #
 # @param http_timeout  Default timeout (in seconds) to use when accessing
 #     Elasticsearch APIs.
@@ -167,6 +172,7 @@ class simp_elasticsearch (
   Simplib::Host                   $node_name              = $facts['fqdn'],
   Simplib::Host                   $bind_host              = $facts['ipaddress'],
   Simplib::Host                   $http_bind_host         = '127.0.0.1',
+  Simplib::Port                   $http_listen_port       = 9200,
   Simplib::Port                   $http_port              = 9199,
   Integer                         $http_timeout           = 10,
   Hash                            $http_method_acl        = {},
@@ -255,11 +261,10 @@ class simp_elasticsearch (
     }
   }
 
-  $_http_listen_port = 9200
   if $manage_httpd or $manage_httpd == 'conf' {
     class { 'simp_elasticsearch::simp_apache':
       manage_httpd => $manage_httpd,
-      listen       => $_http_listen_port,
+      listen       => $http_listen_port,
       proxy_port   => $_config['http']['port'],
       method_acl   => $http_method_acl,
     }
@@ -275,7 +280,7 @@ class simp_elasticsearch (
           if defined('$_macl_hosts') and !empty($_macl_hosts) {
             iptables::listen::tcp_stateful{ 'elasticsearch_allow_remote':
               trusted_nets => keys($_macl_hosts),
-              dports       => [ $_http_listen_port ]
+              dports       => [ $http_listen_port ]
             }
           }
         }
@@ -284,7 +289,7 @@ class simp_elasticsearch (
   }
 
   # Make sure elasticsearch user can spawn up to 2048 threads
-  if (versioncmp($facts['os']['release']['major'],'7') < 0) {
+  if ($facts['os']['release']['major'] < '7') {
     # see man page for limits.conf
     pam::limits::rule { 'es_nproc':
       domains => [ $::elasticsearch::elasticsearch_user ],

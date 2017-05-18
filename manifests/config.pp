@@ -50,11 +50,11 @@ class simp_elasticsearch::config {
 
   # Change the home directory
   user {  $::elasticsearch::elasticsearch_user:
-    ensure     => 'present',
-    comment    => 'elasticsearch user',
-    home       => '/var/local/elasticsearch',
-    shell      => '/sbin/nologin',
-    system     => true
+    ensure  => 'present',
+    comment => 'elasticsearch user',
+    home    => '/var/local/elasticsearch',
+    shell   => '/sbin/nologin',
+    system  => true
   }
 
   # Make sure directory exists
@@ -62,10 +62,10 @@ class simp_elasticsearch::config {
   # 'managehome' attribute to true won't create the directory for a user
   # that already exists.
   file { '/var/local/elasticsearch':
-    ensure  => 'directory',
-    group   =>  $::elasticsearch::elasticsearch_group,
-    owner   =>  $::elasticsearch::elasticsearch_user,
-    mode    => '0770',
+    ensure => 'directory',
+    group  =>  $::elasticsearch::elasticsearch_group,
+    owner  =>  $::elasticsearch::elasticsearch_user,
+    mode   => '0770',
   }
 
   # Create tmp directory for JNA

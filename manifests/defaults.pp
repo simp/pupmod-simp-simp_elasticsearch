@@ -27,9 +27,9 @@ class simp_elasticsearch::defaults {
   # JNA tmp dir must be set, as default is /tmp which won't
   # work with noexec constraints
   $jvm_options_defaults = [
-   "-Xms${es_heap_size}",
-   "-Xmx${es_heap_size}",
-   "-Djna.tmpdir=${::simp_elasticsearch::jna_tmpdir}"
+    "-Xms${es_heap_size}",
+    "-Xmx${es_heap_size}",
+    "-Djna.tmpdir=${::simp_elasticsearch::jna_tmpdir}"
   ]
 
   $_base_config = {
