@@ -13,11 +13,11 @@ class simp_elasticsearch::defaults {
   }
 
   # The amount of memory that ES should allocate on startup.
-  #   Default: 50% of Memory + 2G. If < 4G is present, just 50% of
+  #   Default: 50% of Memory + 2G. If < 10G is present, just 50% of
   #   mem.
   $mem_bytes = to_bytes($::memorysize)
 
-  if $mem_bytes < 4294967296 {
+  if $mem_bytes < 10737418240 {
     $es_heap_size = ( $mem_bytes / 2 )
   }
   else {
