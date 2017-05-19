@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_elasticsearch",
-  "version": "4.1.0",
+  "version": "5.0.0",
   "author": "SIMP Team",
   "summary": "SIMP module for integrating elastic/puppet-elasticsearch",
   "license": "Apache-2.0",
@@ -15,8 +15,8 @@
   ],
   "dependencies": [
     {
-      "name": "elasticsearch/elasticsearch",
-      "version_requirement": ">= 0.11.0 < 1.0.0"
+      "name": "elastic/elasticsearch",
+      "version_requirement": ">= 5.2.0 < 6.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
@@ -59,10 +59,6 @@
     {
       "name": "puppet",
       "version_requirement": "4.x"
-    },
-    {
-      "name": "pe",
-      "version_requirement": ">= 2016.2.0"
     }
   ],
   "data_provider": "hiera"

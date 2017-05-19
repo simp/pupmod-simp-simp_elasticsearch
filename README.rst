@@ -95,6 +95,13 @@ In Hiera, you can define this as follows:
 
   simp_elasticsearch::cluster_name : 'my_cluster'
 
+In addition, for EL6 systems, ensure the correct version of JAVA is
+installed as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
+
 Setting up a Multi-Node Cluster
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -132,6 +139,12 @@ can use in the place of `::ipaddress` below.
     - second.cluster.host:9300
     - third.cluster.host:9300
 
+Be sure to specify the correct version of JAVA for EL6 systems as follows:
+
+.. code:: yaml
+
+  java::package : 'java-1.8.0-openjdk-devel'
+
 Enabling Remote Connections
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -144,7 +157,7 @@ To expose your cluster to external hosts, you will use the following Hiera confi
 
   # This is required for use with Grafana. If you are not using Grafana, you
   # should require client validation (default) if at all possible.
-  simp_elasticsearch::apache::ssl_verify_client: 'none'
+  simp_elasticsearch::simp_apache::ssl_verify_client: 'none'
 
   simp_elasticsearch::http_method_acl :
     'limits' :

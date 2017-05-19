@@ -1,0 +1,7 @@
+---
+simp_options::ldap::uri:
+- 'ldap://server1'
+- 'ldap://server2'
+simp_options::ldap::base_dn: 'dc=example,dc=com'
+simp_options::ldap::bind_dn: 'cn=hostAuth,ou=People,dc=example,dc=com'
+simp_options::ldap::bind_pw: 'B1nd=P@ssw0rd=F0r=T3st'

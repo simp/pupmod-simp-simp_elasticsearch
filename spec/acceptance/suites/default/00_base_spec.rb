@@ -15,14 +15,19 @@ describe 'simp_elasticsearch class' do
       pattern => 'ALL'
     }
 
-    iptables::listen::tcp_stateful { 'i_love_testing':
+    iptables::listen::tcp_stateful { 'ssh_access':
       order        => 8,
       trusted_nets => ['10.0.0.0/16','127.0.0.0/2'],
       dports       => 22
     }
   EOM
+ 
+  let(:manifest) { <<-EOM
+include '::simp_elasticsearch'
 
-  let(:manifest) { "include '::simp_elasticsearch'" }
+#{ssh_allow}
+  EOM
+  }
 
   let(:hieradata) {
     <<-EOS
@@ -30,7 +35,12 @@ describe 'simp_elasticsearch class' do
 simp_elasticsearch::cluster_name : 'test_cluster'
 simp_elasticsearch::bind_host : '#IPADDRESS#'
 simp_elasticsearch::unicast_hosts :
-  - #{hosts.map{|x| x.to_s + ':9300'}.join("\n  - ")}
+  - #{hosts.map{|x| '"' + x.to_s + '.%{::domain}' + ':9300"'}.join("\n  - ")}
+
+simp_elasticsearch::http_method_acl :
+  limits :
+    hosts :
+      #{hosts.map{|x| '"' + x.to_s + '.%{::domain}" : defaults'}.join("\n      ")}
 
 simp_apache::rsync_web_root : false
 simp_options::rsync::server : "%{::fqdn}"
@@ -39,7 +49,7 @@ simp_options::pki : true
 simp_options::pki::source : '/etc/pki/simp-testing/pki'
 
 simp_options::firewall : true
-    EOS
+   EOS
   }
 
   elasticsearch_servers.each do |host|
@@ -54,6 +64,11 @@ simp_options::firewall : true
 
         hdata = hieradata.dup
         hdata.gsub!(/#IPADDRESS#/m, ipaddr)
+
+        if host.name == 'el6-server'
+          # need newer JAVA version 
+           hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
+        end
 
         set_hieradata_on(host, hdata)
         apply_manifest_on(host, manifest, :catch_failures => true)
@@ -77,7 +92,18 @@ simp_options::firewall : true
       sleep(30)
 
       result = on(host, %(curl -XGET 'http://localhost:9199/_cat/nodes')).stdout
-      result.lines.count.should eql(elasticsearch_servers.count)
+      expect(result.lines.count).to eq elasticsearch_servers.count
+    end
+
+    it 'should allow secure ES api access' do
+      fqdn = fact_on(host, 'fqdn')
+      cert = "/etc/pki/simp_apps/simp_apache/x509/private/#{fqdn}.pem"
+      elasticsearch_servers.each do |es_host|
+        # -k needed because we are using a self-signing CA
+        # --cert needed because SSLVerifyClient is enabled by default in ES apache config
+        result = on(host, %(curl -k --cert #{cert} -XGET 'https://#{es_host.name}:9200/_cat/nodes')).stdout
+        expect(result.lines.count).to eq elasticsearch_servers.count
+      end
     end
   end
 end

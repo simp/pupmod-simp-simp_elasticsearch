@@ -11,10 +11,10 @@ HOSTS:
     hypervisor: vagrant
     yum_repos:
       simp:
-        baseurl: https://dl.bintray.com/simp/5.1.X
+        baseurl: https://packagecloud.io/simp-project/6_X/el/7/x86_64
         gpgcheck: 0
       elasticsearch:
-        baseurl: 'https://packages.elastic.co/elasticsearch/2.x/centos'
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
         gpgcheck: 0
 
   el6-server:
@@ -26,10 +26,10 @@ HOSTS:
     hypervisor: vagrant
     yum_repos:
       simp:
-        baseurl: https://dl.bintray.com/simp/4.2.X
+        baseurl: https://packagecloud.io/simp-project/6_X/el/6/x86_64
         gpgcheck: 0
       elasticsearch:
-        baseurl: 'https://packages.elastic.co/elasticsearch/2.x/centos'
+        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
         gpgcheck: 0
 
 CONFIG:

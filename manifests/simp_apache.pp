@@ -2,7 +2,7 @@
 # ElasticSearch. The defaults are targeted toward making the interface as
 # highly available as possible without regard to system load.
 #
-# @param manage_http Whether or not to manage the httpd daemon/apache
+# @param manage_httpd Whether or not to manage the httpd daemon/apache
 #   itself.
 #
 #   @note This class assumes that you're using the simp-supplied apache module
@@ -13,6 +13,19 @@
 #
 # @param proxy_port The port to proxy HTTP connections to on the local
 #   system.
+#
+# @param cipher_suite OpenSSL cipher suite to use for SSL connections
+#
+# @param ssl_protocols  SSL protocols allowed
+#
+# @param apache_user  apache user; used to set configuration file ownership
+#
+# @param apache_group  apache group; used to set configuration file ownership
+#
+# @param ssl_verify_client Type of client certificate verification.
+#
+# @param ssl_verify_depth  Maximum depth of CA certificates in client
+#   certificate verifiction.
 #
 # @param method_acl Users, Groups, and Hosts HTTP operation ACL
 #   management. Keys are the relevant entry to allow and values are an Array of
@@ -97,19 +110,18 @@
 #
 # @author Trevor Vaughan <tvaughan@onyxpoint.com>
 #
-# @copyright 2016 Onyx Point, Inc.
-#
 class simp_elasticsearch::simp_apache (
-  Variant[Boolean,Enum['conf']]  $manage_httpd,
-  Simplib::Port                  $listen            = 9200,
-  Simplib::Port                  $proxyport         = 9199,
-  Array[String]                  $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
-  Array[String]                  $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
-  String                         $apache_user       = 'root',
-  String                         $apache_group      = 'apache',
-  String                         $ssl_verify_client = 'require',
-  Integer                        $ssl_verify_depth  = 10,
-  Hash                           $method_acl        = {},
+  Variant[Boolean,Enum['conf']]    $manage_httpd,
+  Simplib::Port                    $listen            = 9200,
+  Simplib::Port                    $proxy_port        = 9199,
+  Array[String]                    $cipher_suite      = simplib::lookup('simp_options::openssl::cipher_suite', { 'default_value' => ['HIGH'] } ),
+  Array[String]                    $ssl_protocols     = ['+TLSv1','+TLSv1.1','+TLSv1.2'],
+  String                           $apache_user       = 'root',
+  String                           $apache_group      = 'apache',
+  Enum['none', 'require',
+    'optional', 'optional_no_ca']  $ssl_verify_client = 'require',
+  Integer                          $ssl_verify_depth  = 10,
+  Hash                             $method_acl        = {},
 ) {
 
   if $manage_httpd or $manage_httpd == 'conf' {
