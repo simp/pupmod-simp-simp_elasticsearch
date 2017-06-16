@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'es_systemd_escape' do
+describe 'simp_elasticsearch::systemd_escape' do
   testcases = {
     'hello, world'    => 'hello\x2c\x20world',
     '/some/file/path' => '-some-file-path',
@@ -12,19 +12,15 @@ describe 'es_systemd_escape' do
       'odd\x40\x21\x23\x24\x25\x26\x28\x29\x2a\x2b\x2c\x5c-:\x3b\x3c\x3d\x3e\x3f\x5b\x5d\x5e\x7b\x7d\x7c\x5c\x7e'
   }
 
-  context "with valid input" do
+  context 'with valid input' do
     testcases.each do |input, expected_output|
       it { is_expected.to run.with_params(input).and_return(expected_output) }
     end
   end
 
   context 'with invalid input' do
-    it { is_expected.to run.with_params().and_raise_error(ArgumentError, /Wrong number of arguments/i) }
-
-    it {
-      is_expected.to run.with_params(1).and_raise_error(Puppet::ParseError,
-       /Expects a string argument, got 1 which is of type Fixnum/i)
-    }
+    it { is_expected.to run.with_params().and_raise_error(ArgumentError) }
+    it { is_expected.to run.with_params(1).and_raise_error(ArgumentError) }
   end
 end
 

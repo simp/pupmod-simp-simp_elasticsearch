@@ -208,7 +208,7 @@ class simp_elasticsearch (
 
 
   if $spawn_default_instance {
-    $default_instance_name = es_systemd_escape($cluster_name)
+    $default_instance_name = simp_elasticsearch::systemd_escape($cluster_name)
     include '::simp_elasticsearch::default_instance'
 
     Class['simp_elasticsearch'] -> Class['simp_elasticsearch::default_instance']
@@ -257,7 +257,7 @@ class simp_elasticsearch (
 
     iptables_rule { 'elasticsearch_allow_cluster':
       first   => true,
-      content => es_iptables_format($_config['discovery']['zen']['ping']['unicast']['hosts'])
+      content => simp_elasticsearch::iptables_format($_config['discovery']['zen']['ping']['unicast']['hosts'])
     }
   }
 
