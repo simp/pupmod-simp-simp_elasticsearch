@@ -6,6 +6,9 @@
 Puppet::Functions.create_function(:'simp_elasticsearch::iptables_format') do
   # @param host_info
   #   A single ES host in 'ip:port' or 'host:port' format
+  # @return String
+  #   String containing iptable ACCEPT rule(s) for ES hosts at their
+  #   specified ports.
   dispatch :iptables_format do
     required_param 'String', :host_info
   end
@@ -13,6 +16,9 @@ Puppet::Functions.create_function(:'simp_elasticsearch::iptables_format') do
   # @param host_info
   #   An Array of one or more ES hosts, each in 'ip:port' or 'host:port'
   #   format
+  # @return String
+  #   String containing iptable ACCEPT rule(s) for ES hosts at their
+  #   specified ports.
   dispatch :iptables_format do
     required_param 'Array', :host_info
   end
