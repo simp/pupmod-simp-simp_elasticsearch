@@ -1,30 +1,26 @@
 ---
 fixtures:
   repositories:
-    auditd:
-      repo: https://github.com/simp/pupmod-simp-auditd
-      ref: 7.0.1
+    auditd: https://github.com/simp/pupmod-simp-auditd
     augeasproviders_core:
       repo: https://github.com/simp/augeasproviders_core
-      ref: simp6.0.0-2.1.3
+      ref: 2.4.1
     augeasproviders_grub:
       repo: https://github.com/simp/augeasproviders_grub
-      ref: simp6.0.0-2.4.0
+      ref: 3.0.0
     augeasproviders_puppet:
       repo: https://github.com/simp/augeasproviders_puppet
-      ref: simp-2.1.0
+      ref: 2.1.1
     augeasproviders_ssh:
       repo: https://github.com/simp/augeasproviders_ssh
-      ref: simp6.0.0-2.5.0
+      ref: 2.5.3
     augeasproviders_sysctl:
       repo: https://github.com/simp/augeasproviders_sysctl
-      ref: simp6.0.0-2.1.0
-    compliance_mapper:
-      repo: https://github.com/simp/pupmod-simp-compliance_markup
-      ref: 2.0.1
+      ref: 2.2.0
+    compliance_mapper: https://github.com/simp/pupmod-simp-compliance_markup
     concat:
       repo: https://github.com/simp/puppetlabs-concat
-      ref: simp6.0.0-2.2.0
+      ref: 3.0.0
     datacat:
       repo: https://github.com/simp/puppet-datacat
       ref: simp6.0.0-0.6.2
@@ -36,51 +32,27 @@ fixtures:
       ref: simp6.0.0-1.0.1
     haveged:
       repo: https://github.com/simp/puppet-haveged
-      ref: 0.4.0
-    iptables:
-      repo: https://github.com/simp/pupmod-simp-iptables
-      ref: 6.0.1
+      ref: 0.4.4
+    iptables: https://github.com/simp/pupmod-simp-iptables
     java:
       repo: https://github.com/simp/puppetlabs-java
       ref: simp-1.6.0-post1
-    logrotate:
-      repo: https://github.com/simp/pupmod-simp-logrotate
-      ref: 6.0.0
-    oddjob:
-      repo: https://github.com/simp/pupmod-simp-oddjob
-      ref: 2.0.0
-    pam:
-      repo: https://github.com/simp/pupmod-simp-pam
-      ref: 6.0.2
-    pki:
-      repo: https://github.com/simp/pupmod-simp-pki
-      ref: 6.0.0
-    rsync:
-      repo: https://github.com/simp/pupmod-simp-rsync
-      ref: 6.0.2
-    rsyslog:
-      repo: https://github.com/simp/pupmod-simp-rsyslog
-      ref: 7.0.2
-    simp_apache:
-      repo: https://github.com/simp/pupmod-simp-apache
-      ref: 6.0.0
-    simp_options:
-      repo: https://github.com/simp/pupmod-simp-simp_options
-      ref: 1.0.2
-    simpcat:
-      repo: https://github.com/simp/pupmod-simp-simpcat
-      ref: 6.0.0
-    simplib:
-      repo: https://github.com/simp/pupmod-simp-simplib
-      ref: 3.2.0
+    logrotate: https://github.com/simp/pupmod-simp-logrotate
+    oddjob: https://github.com/simp/pupmod-simp-oddjob
+    pam: https://github.com/simp/pupmod-simp-pam
+    pki: https://github.com/simp/pupmod-simp-pki
+    rsync: https://github.com/simp/pupmod-simp-rsync
+    rsyslog: https://github.com/simp/pupmod-simp-rsyslog
+    simp_apache: https://github.com/simp/pupmod-simp-apache
+    simp_options: https://github.com/simp/pupmod-simp-simp_options
+    simpcat: https://github.com/simp/pupmod-simp-simpcat
+    simplib: https://github.com/simp/pupmod-simp-simplib
     stdlib:
       repo: https://github.com/simp/puppetlabs-stdlib
-      ref: simp6.0.0-4.13.1
-    tcpwrappers:
-      repo: https://github.com/simp/pupmod-simp-tcpwrappers
-      ref: 6.0.0
+      ref: 4.24.0
+    tcpwrappers: https://github.com/simp/pupmod-simp-tcpwrappers
     yum:
-      repo: https://github.com/voxpupuli/puppet-yum
-      ref: v1.0.0
+      repo: https://github.com/simp/voxpupuli-yum
+      ref: v2.1.0
   symlinks:
     simp_elasticsearch: "#{source_dir}"
