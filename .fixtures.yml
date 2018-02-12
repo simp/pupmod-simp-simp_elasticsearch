@@ -19,24 +19,24 @@ fixtures:
       ref: 2.2.0
     compliance_mapper: https://github.com/simp/pupmod-simp-compliance_markup
     concat:
+      # master is beyond 4.1.1, but has breaking changes to
+      # how fragments are ordered (MODULES-6625)
       repo: https://github.com/simp/puppetlabs-concat
-      ref: 3.0.0
+      ref: 4.1.1
     datacat:
       repo: https://github.com/simp/puppet-datacat
       ref: simp6.0.0-0.6.2
     elasticsearch:
       repo: https://github.com/simp/puppet-elasticsearch
-      ref: 5.2.0
+      ref: 5.5.0
     file_concat:
       repo: https://github.com/simp/puppet-lib-file_concat
       ref: simp6.0.0-1.0.1
-    haveged:
-      repo: https://github.com/simp/puppet-haveged
-      ref: 0.4.4
+    haveged: https://github.com/simp/pupmod-simp-haveged
     iptables: https://github.com/simp/pupmod-simp-iptables
     java:
       repo: https://github.com/simp/puppetlabs-java
-      ref: simp-1.6.0-post1
+      ref: 2.4.0
     logrotate: https://github.com/simp/pupmod-simp-logrotate
     oddjob: https://github.com/simp/pupmod-simp-oddjob
     pam: https://github.com/simp/pupmod-simp-pam
