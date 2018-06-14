@@ -8,12 +8,7 @@ describe 'simp_elasticsearch class' do
   elasticsearch_servers = hosts_with_role(hosts, 'elasticsearch_server')
 
   ssh_allow = <<-EOM
-    include '::tcpwrappers'
     include '::iptables'
-
-    tcpwrappers::allow { 'sshd':
-      pattern => 'ALL'
-    }
 
     iptables::listen::tcp_stateful { 'ssh_access':
       order        => 8,
@@ -21,7 +16,7 @@ describe 'simp_elasticsearch class' do
       dports       => 22
     }
   EOM
- 
+
   let(:manifest) { <<-EOM
 include '::simp_elasticsearch'
 
@@ -66,7 +61,7 @@ simp_options::firewall : true
         hdata.gsub!(/#IPADDRESS#/m, ipaddr)
 
         if host.name == 'el6-server'
-          # need newer JAVA version 
+          # need newer JAVA version
            hdata += "\njava::package : 'java-1.8.0-openjdk-devel'\n"
         end
 

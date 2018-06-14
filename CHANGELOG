@@ -1,3 +1,6 @@
+* Thu Jun 14 2018 Nick Miller <nick.miller@onyxpoint.com> - 5.0.2-0
+- Update systemd fixtures and CI assets
+
 * Fri Feb 09 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.1-0
 - Update upperbound on puppetlabs/java version to < 3.0.0
 - Test with elastic/elasticsearch 5.5.0
