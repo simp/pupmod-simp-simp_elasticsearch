@@ -1,5 +1,6 @@
 * Thu Jun 14 2018 Nick Miller <nick.miller@onyxpoint.com> - 5.0.2-0
 - Cleanup unneeded fixtures and update CI assets
+- Update for Puppet 5 and OEL support
 
 * Fri Feb 09 2018 Liz Nemsick <lnemsick.simp@gmail.com> - 5.0.1-0
 - Update upperbound on puppetlabs/java version to < 3.0.0
@@ -15,7 +16,7 @@
 * Wed Feb 01 2017 Nick Markowski <nmarkowski@keywcorp.com> - 5.0.0-0
 - All hiera() lookups changed to lookup() or simplib::lookup()
 
-* Tue Jan 10 2017 Nick Markowski <nmarkowski@keywcorp.com>  4.1.1-0
+* Tue Jan 10 2017 Nick Markowski <nmarkowski@keywcorp.com> - 4.1.1-0
 - Updated pki scheme
 - Application certs now managed in /etc/pki/simp_apps/simp_elasticsearch/x509
 
