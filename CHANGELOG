@@ -1,3 +1,6 @@
+* Tue Aug 28 2018 Steven Pritchard <steven.pritchard@onyxpoint.com> - 5.0.3-0
+- Add missing simp/pam dependency
+
 * Thu Jun 14 2018 Nick Miller <nick.miller@onyxpoint.com> - 5.0.2-0
 - Cleanup unneeded fixtures and update CI assets
 - Update for Puppet 5 and OEL support
