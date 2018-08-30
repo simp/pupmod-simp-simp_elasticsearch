@@ -14,7 +14,7 @@ HOSTS:
       - elasticsearch_server
       - el7
     platform:   el-7-x86_64
-    box:        centos/7
+    box:        elastic/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       simp:
@@ -29,7 +29,7 @@ HOSTS:
       - elasticsearch_server
       - el6
     platform:   el-6-x86_64
-    box:        centos/6
+    box:        elastic/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       simp:
