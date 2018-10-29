@@ -14,7 +14,7 @@ HOSTS:
       - elasticsearch_server
       - el7
     platform:   el-7-x86_64
-    box:        elastic/oel-7-x86_64
+    box:        onyxpoint/oel-7-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       simp:
@@ -29,7 +29,7 @@ HOSTS:
       - elasticsearch_server
       - el6
     platform:   el-6-x86_64
-    box:        elastic/oel-6-x86_64
+    box:        onyxpoint/oel-6-x86_64
     hypervisor: <%= hypervisor %>
     yum_repos:
       simp:
@@ -43,6 +43,6 @@ CONFIG:
   log_level: verbose
   type:      aio
   vagrant_memsize: 512
-<% if ENV['BEAKER_PUPPET_ENVIRONMENT'] -%>
-  puppet_environment: <%= ENV['BEAKER_PUPPET_ENVIRONMENT'] %>
+<% if ENV['BEAKER_PUPPET_COLLECTION'] -%>
+  puppet_collection: <%= ENV['BEAKER_PUPPET_COLLECTION'] %>
 <% end -%>
