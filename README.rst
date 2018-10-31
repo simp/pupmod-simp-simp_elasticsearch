@@ -30,8 +30,7 @@ A module to integrate the `upstream elasticsearch module <https://github.com/ela
 This is a SIMP component module
 -------------------------------
 
-This module is a component of the `System Integrity Management
-Platform <https://simp-project.com>`__, a
+This module is a component of the `System Integrity Management Platform <https://simp-project.com>`__, a
 compliance oriented framework built on Puppet.
 
 If you find any issues, they can be submitted to our
