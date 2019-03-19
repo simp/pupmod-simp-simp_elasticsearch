@@ -133,12 +133,12 @@ class simp_elasticsearch::simp_apache (
       $method_acl
     )
 
-    validate_deep_hash( $::simp_apache::validate::method_acl, $_method_acl)
+    simplib::validate_deep_hash( $::simp_apache::validate::method_acl, $_method_acl)
 
     # These only work because we guarantee that we have content here.
     validate_absolute_path($_method_acl['method']['file']['user_file'])
-    validate_bool_simp($_method_acl['method']['ldap']['posix_group'])
-    validate_net_list(keys($_method_acl['limits']['hosts']))
+    simplib::validate_bool($_method_acl['method']['ldap']['posix_group'])
+    simplib::validate_net_list(keys($_method_acl['limits']['hosts']))
 
     $es_httpd_includes = '/etc/httpd/conf.d/elasticsearch'
 
@@ -178,7 +178,7 @@ class simp_elasticsearch::simp_apache (
       require => File[$es_httpd_includes]
     }
 
-    $_apache_auth = apache_auth($_method_acl['method'])
+    $_apache_auth = simp_apache::auth($_method_acl['method'])
 
     if !empty($_apache_auth) {
       file { "${es_httpd_includes}/auth/auth.conf":
@@ -192,7 +192,7 @@ class simp_elasticsearch::simp_apache (
       }
     }
 
-    $_apache_limits = apache_limits($_method_acl['limits'])
+    $_apache_limits = simp_apache::limits($_method_acl['limits'])
     $_apache_limits_content = $_apache_limits ? {
       # Set some sane defaults.
       ''      => "<Limit GET POST PUT DELETE>

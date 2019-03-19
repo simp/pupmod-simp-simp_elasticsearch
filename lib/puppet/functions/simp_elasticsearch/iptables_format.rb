@@ -35,7 +35,7 @@ Puppet::Functions.create_function(:'simp_elasticsearch::iptables_format') do
         fail("simp_elasticsearch::iptables_format: Error, '#{es_host}' missing a valid port.")
       end
 
-      call_function('validate_net_list', Array(host))
+      call_function('simplib::validate_net_list', Array(host))
 
       iptables_rules << "-s #{host} -p tcp -m state --state NEW -m tcp -m multiport --dports #{port} -j ACCEPT"
     end

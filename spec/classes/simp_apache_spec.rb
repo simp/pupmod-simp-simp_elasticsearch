@@ -26,6 +26,7 @@ describe 'simp_elasticsearch::simp_apache' do
   Require all denied
   Satisfy any
 </Limit>
+
 <Limit POST>
   Order allow,deny
   Allow from 127.0.0.1
@@ -33,6 +34,7 @@ describe 'simp_elasticsearch::simp_apache' do
   Require all denied
   Satisfy any
 </Limit>
+
 <Limit PUT>
   Order allow,deny
   Allow from 127.0.0.1
@@ -40,6 +42,7 @@ describe 'simp_elasticsearch::simp_apache' do
   Require all denied
   Satisfy any
 </Limit>
+
 EOM
         ) }
 
@@ -119,6 +122,7 @@ EOM
   Require all denied
   Satisfy any
 </Limit>
+
 <Limit POST>
   Order allow,deny
   Allow from 1.2.3.4
@@ -128,6 +132,7 @@ EOM
   Require all denied
   Satisfy any
 </Limit>
+
 <Limit PUT>
   Order allow,deny
   Allow from 1.2.3.4
@@ -137,6 +142,7 @@ EOM
   Require all denied
   Satisfy any
 </Limit>
+
 EOM
         ) }
 
