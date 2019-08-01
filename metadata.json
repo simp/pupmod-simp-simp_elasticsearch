@@ -1,6 +1,6 @@
 {
   "name": "simp-simp_elasticsearch",
-  "version": "5.0.6",
+  "version": "5.0.7",
   "author": "SIMP Team",
   "summary": "SIMP module for integrating elastic/puppet-elasticsearch",
   "license": "Apache-2.0",
@@ -16,11 +16,11 @@
   "dependencies": [
     {
       "name": "elastic/elasticsearch",
-      "version_requirement": ">= 5.2.0 < 6.0.0"
+      "version_requirement": ">= 5.2.0 < 7.0.0"
     },
     {
       "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.13.0 < 6.0.0"
+      "version_requirement": ">= 4.13.0 < 7.0.0"
     },
     {
       "name": "simp/pam",
@@ -40,7 +40,7 @@
     },
     {
       "name": "puppetlabs/java",
-      "version_requirement": ">= 1.6.0 < 3.0.0"
+      "version_requirement": ">= 1.6.0 < 6.0.0"
     }
   ],
   "operatingsystem_support": [
@@ -69,7 +69,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.7.0 < 6.0.0"
+      "version_requirement": ">= 4.7.0 < 7.0.0"
     }
   ]
 }
