@@ -1,48 +1,40 @@
-<%
-  if ENV['BEAKER_HYPERVISOR']
-    hypervisor = ENV['BEAKER_HYPERVISOR']
-  else
-    hypervisor = 'vagrant'
-  end
--%>
+---
 HOSTS:
   el7-server:
     roles:
-      - server
-      - default
-      - master
-      - elasticsearch_server
-      - el7
-    platform:   el-7-x86_64
-    box:        centos/7
-    hypervisor: <%= hypervisor %>
+    - server
+    - default
+    - master
+    - elasticsearch_server
+    - el7
+    platform: el-7-x86_64
+    box: centos/7
+    hypervisor: "<%= ENV.fetch('BEAKER_HYPERVISOR', 'vagrant') %>"
     yum_repos:
       simp:
         baseurl: https://packagecloud.io/simp-project/6_X/el/7/x86_64
         gpgcheck: 0
       elasticsearch:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        baseurl: https://artifacts.elastic.co/packages/5.x/yum
         gpgcheck: 0
-
+    family: centos-cloud/centos-7
+    gce_machine_type: n1-standard-2
   el6-server:
     roles:
-      - elasticsearch_server
-      - el6
-    platform:   el-6-x86_64
-    box:        centos/6
-    hypervisor: <%= hypervisor %>
+    - elasticsearch_server
+    - el6
+    platform: el-6-x86_64
+    box: centos/6
+    hypervisor: vagrant
     yum_repos:
       simp:
         baseurl: https://packagecloud.io/simp-project/6_X/el/6/x86_64
         gpgcheck: 0
       elasticsearch:
-        baseurl:  https://artifacts.elastic.co/packages/5.x/yum
+        baseurl: https://artifacts.elastic.co/packages/5.x/yum
         gpgcheck: 0
-
 CONFIG:
   log_level: verbose
-  type:      aio
+  type: aio
   vagrant_memsize: 512
-<% if ENV['BEAKER_PUPPET_COLLECTION'] -%>
-  puppet_collection: <%= ENV['BEAKER_PUPPET_COLLECTION'] %>
-<% end -%>
+  puppet_collection: "<%= ENV.fetch('BEAKER_PUPPET_COLLECTION', 'puppet7') %>"
